@@ -65,8 +65,43 @@ concavity of $U$ in $e$, which uses $g'<0$ again, plus an interior solution. See
     contracting paradox, not the reference listed. **To check.**
   - Neither version, in the main text or the appendix, ever considers $\Delta_I>0$.
 
+### Claude — Block 2: welfare and the trap (summary of what the session produced)
+
+- **Q: "Is welfare increasing in AI accuracy?"** My first instinct matched the paper's hump.
+  Pushing further gave four layers:
+  1. static, yes (envelope);
+  2. planner, yes (Blackwell);
+  3. decentralised steady state, no (hump and cliff);
+  4. the transition depends on discounting.
+  Layer 2 is not in the paper.
+- **Q: "Which assumptions do the authors relax?"** Answer: §5.1–5.3, all on the information side.
+  $\Delta_I=0$ is never relaxed, in the main text or the appendix. Checked by searching both PDFs
+  for $\Delta_I$.
+- **Correction of my own earlier claim.** In Block 1 I predicted that with $\Delta_I>0 $ "the hump
+  can disappear". The simulations say otherwise: the hump survived every $\Delta_I$ tried, up to
+  0.95. The asymptotic argument then showed why. For $\varepsilon<4$ welfare stays above its limit
+  $\Delta_I$ at high accuracy. **The preliminary claim was wrong and is withdrawn.**
+
 ---
 
-## Session 2 — ChatGPT (Lean 4)
+## Session 2 — ChatGPT: the trap test (cold, before showing it our analysis)
+
+Open a **new** ChatGPT chat, attach only the paper PDF, and paste these prompts one at a time.
+Copy the answers here **raw**.
+
+1. `Read this paper. Is welfare increasing in the accuracy of agentic AI (tau_A)? Answer in five lines.`
+2. `Would your answer change if a social planner chose everyone's learning effort? Prove it or give a counterexample.`
+3. `List every assumption the authors relax in the paper, and say where. Is there a production-side assumption they never relax anywhere, including the appendix?`
+4. `What happens to knowledge collapse and to the welfare limit as tau_A -> infinity if Delta_I > 0?`
+
+*What to look for:*
+- Does it answer "yes" to prompt 1? That is the trap.
+- Does it see the Blackwell argument in prompt 2?
+- Does it invent an extension that is already in §5, or miss $\Delta_I$, in prompt 3?
+- Does it claim the hump disappears in prompt 4, as Claude first did?
+
+---
+
+## Session 3 — ChatGPT (Lean 4)
 
 *(Paste here the raw conversation after giving ChatGPT `lean/CHATGPT_CONTEXT.md`.)*
