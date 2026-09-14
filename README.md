@@ -65,6 +65,23 @@ about the idiosyncratic state; Assumption 1; $\sigma^{-2}>0$; isoelastic effort 
 Steady-state welfare is **hump-shaped** in $\tau_A$ (Props. 10–11, which also need Assumption 2:
 $\sigma^{-2}\ge\sqrt2-1$).
 
+## This week's trap — our answers
+
+1. **Is welfare increasing in AI accuracy?** It depends on who chooses effort and on the horizon.
+   - *Yes* holding general knowledge fixed (envelope theorem).
+   - *Yes, always,* for a planner who prices the learning externality (a Blackwell argument, ours).
+   - *No* in the decentralised steady state: welfare is hump-shaped (Props. 10–11), and with
+     $\varepsilon>4$ it falls off a cliff at $\tau_A^c$.
+   - The paper's long-run-average criterion gives transitions zero weight. Under discounting, the
+     same AI improvement can raise welfare.
+2. **Which assumptions do the authors relax?** Section 5 relaxes aggregation (§5.1), synthetic data
+   (§5.2) and separability (§5.3), all on the information side. **The production-side assumption
+   never touched is $\Delta_I=0$** (Assumption 1). We relaxed it. Complete collapse disappears and
+   the welfare limit becomes $\Delta_I$, but the interior optimum survives. For $\varepsilon<4$ we
+   prove it, and the same threshold 4 reappears.
+3. **Version.** We read the 5 May 2026 author version. It differs from the February NBER release
+   in notation and in three new, unproven robustness claims; see `extra/version-comparison.md`.
+
 ---
 
 ## What is in this repository
@@ -75,10 +92,12 @@ $\sigma^{-2}\ge\sqrt2-1$).
 | `prompts.md` | The LLM conversations, raw |
 | `hand/` | Handwritten derivation(s) — see `hand/README.md` |
 | `presentation.tex` / `.pdf` | The 5-minute Beamer deck *(in progress)* |
-| `extra/tutorial-ako.pdf` | Deep-immersion tutorial, Part I: environment, Bayesian updating, static problem, Observations 1–2, the bridge to Lemma 2 |
+| `extra/tutorial-ako.pdf` | Deep-immersion tutorial (18 pp.). Part I: static problem, Observations 1–2, the bridge to Lemma 2. Part II: welfare, the trap, and the $\Delta_I>0$ extension with proofs |
+| `extensions.md` | Dead ends (already in §5), what we relaxed ($\Delta_I>0$, planner, discounting), and four open extensions |
+| `extra/five-questions.md` | The question, the answer, the argument, the contribution, and what is unconvincing |
 | `extra/version-comparison.md` | What changed between the February (NBER) and May (MIT) versions |
 | `sim/verify_static.py` | SymPy check of every algebraic step in the static block |
-| `sim/model.py`, `sim/fig_static.py` | Numerical model and the figures in `figures/` |
+| `sim/model.py`, `sim/fig_static.py`, `sim/welfare.py` | Numerical model; figures 1–3 (static block) and 4–8 (welfare, extension, transition, planner) |
 | `lean/CHATGPT_CONTEXT.md` | Brief for the Lean 4 formalization (done with ChatGPT; Claude audits it) |
 | `paper/` | How to get the PDF (not committed) |
 
@@ -87,5 +106,6 @@ $\sigma^{-2}\ge\sqrt2-1$).
 ```bash
 pip install -r requirements.txt
 python sim/verify_static.py      # symbolic checks — every line should print OK
-python sim/fig_static.py         # regenerates figures/
+python sim/fig_static.py         # figures 1-3
+python sim/welfare.py            # figures 4-8 and the numbers quoted in the tutorial (~30 s)
 ```
