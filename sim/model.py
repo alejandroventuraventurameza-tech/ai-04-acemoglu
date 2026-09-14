@@ -15,9 +15,20 @@ Notation follows the paper:
     e_m(X) = Sigma^2 X^2 / (lambda_G I (1 - Sigma^2 X))  -- "maintenance effort":
              F(X) > X  <=>  e(X, tau_A) > e_m(X)   for 0 < X < Sigma^{-2}.
 """
+import math
 import numpy as np
 from scipy.stats import norm
 from scipy.optimize import brentq
+
+_SQ2PI = math.sqrt(2.0 * math.pi)
+
+
+def _G(t):  # scalar, fast
+    return math.erf(math.sqrt(t / 2.0)) if t > 0 else 0.0
+
+
+def _g(t):  # scalar, fast
+    return math.exp(-t / 2.0) / (_SQ2PI * math.sqrt(t))
 
 BASE = dict(
     s2i=1.0,     # sigma^{-2}: prior precision of the idiosyncratic state (Assumption 2: >= sqrt(2)-1)
@@ -44,10 +55,11 @@ def g(t):
 
 def e_br(X, tA, p):
     """Best-response effort: unique root of the FOC (0 if the marginal benefit is 0)."""
-    A = p["DI"] + p["DX"] * float(G(X))
+    A = p["DI"] + p["DX"] * _G(X)
     if A <= 0.0:
         return 0.0
-    foc = lambda e: p["lI"] * A * float(g(p["s2i"] + p["lI"] * e + tA)) - e ** (1.0 / p["eps"])
+    lI, s2i, inv = p["lI"], p["s2i"], 1.0 / p["eps"]
+    foc = lambda e: lI * A * _g(s2i + lI * e + tA) - e ** inv
     hi = 1.0
     while foc(hi) > 0:
         hi *= 2.0
@@ -68,7 +80,7 @@ def gap(X, tA, p):
     return e_br(X, tA, p) - float(e_m(X, p))
 
 
-def steady_states(tA, p, n=3000, xmin=1e-10):
+def steady_states(tA, p, n=400, xmin=1e-10):
     """Positive steady states = sign changes of e(X) - e_m(X) on (0, Sigma^{-2})."""
     xs = np.geomspace(xmin, (1.0 / p["S2"]) * (1 - 1e-9), n)
     v = np.array([gap(x, tA, p) for x in xs])
@@ -83,5 +95,5 @@ def welfare(X, tA, p):
     """Steady-state expected utility net of f(0,0) (Section 4.1), with our Delta_I term."""
     e = e_br(X, tA, p)
     Y = p["s2i"] + p["lI"] * e + tA
-    GX, GY = float(G(X)), float(G(Y))
+    GX, GY = _G(X), _G(Y)
     return p["DG"] * GX + p["DI"] * GY + p["DX"] * GX * GY - p["eps"] / (p["eps"] + 1) * e ** ((p["eps"] + 1) / p["eps"])
