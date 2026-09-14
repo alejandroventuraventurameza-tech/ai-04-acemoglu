@@ -177,6 +177,20 @@ Use T4 and the fact that `X ^ (p - 2) → 0` (respectively `→ ∞`) as `X → 
 If `eBR 0 > 0` (true when Δ_I > 0), then `F 0 > 0`, so `X = 0` is **not** a fixed point:
 complete knowledge collapse is impossible for every finite τ_A.
 
+### T7 — Blackwell for the planner  *(abstract, easy; supports the week's trap)*
+Let `w : ℕ → ℝ → ℝ` give period-`t` utility as a function of `tauA` along a **fixed** effort path, with
+`∀ t, Monotone (w t)`. Let the planner's value be `V tauA := ⨆ path, J (fun t => w_path t tauA)` for a
+criterion `J` that is monotone in the sequence (e.g. discounted sum with `0 ≤ β < 1`, or `liminf` of
+averages). Prove `Monotone V`. Concrete version: prove it for
+`J u = ∑' t, β^t * u t` with bounded `u`, and for a finite horizon `∑ t in range T`.
+*Economic meaning:* a planner who internalizes the learning externality is never hurt by more
+accurate AI; the paper's welfare hump is an equilibrium (externality) phenomenon.
+
+### T8 — the extension Δ_I > 0: collapse is impossible  *(medium; combines T4 and T6)*
+With `eBR : ℝ → ℝ` continuous, `eBR 0 > 0`, `eBR ≥ 0`, and `F` as in T5, prove:
+(i) `0 < F 0`; (ii) `∀ X, F X < Sigma2⁻¹`; (iii) there exists a fixed point `X* ∈ Ioo 0 Sigma2⁻¹`
+(IVT on `F X - X`); (iv) no fixed point equals `0`.
+
 ## 4. Where to be skeptical (please check, do not trust)
 
 1. The paper (p. 15) defines the best response as the unique solution of the FOC,

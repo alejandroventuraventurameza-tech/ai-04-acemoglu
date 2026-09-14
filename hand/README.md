@@ -27,4 +27,8 @@ FOC and the precision recursion.
 3. Compare the exponents $\varepsilon/2$ and $2$.
 4. Note that $F'(0)=1$ when $\varepsilon>2$: linearisation cannot decide stability.
 
-Cross-checks: `sim/verify_static.py` (SymPy) and `lean/` (Lean 4, targets T2–T5).
+**Optional page 3: the planner cannot be hurt by better AI (tutorial Result 4).** Five lines, no
+calculus. Fix an effort path, note that $X_t$ does not depend on $\tau_A$, then take the supremum.
+It is the cleanest answer to the week's trap.
+
+Cross-checks: `sim/verify_static.py` (SymPy) and `lean/` (Lean 4, targets T2–T5 and T7).
