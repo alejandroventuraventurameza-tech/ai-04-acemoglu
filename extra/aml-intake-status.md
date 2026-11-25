@@ -41,3 +41,7 @@ The original prompt document was located in the student's available indexed file
 ## Exact generated-folder import
 
 All 20 tracked generated files from run 45554882759 are installed at lean/, with matching SHA-256 digests and Git modes. Source PDFs, extracted source text and private review traces were excluded by the original upstream ignore rules. The previous standalone project was preserved at extra/standalone-lean/. The import manifest and logs are outside the generated folder.
+
+## Final repository evidence
+
+The user subsequently uploaded the corrected manuscript and the original Codex chat export. The export is preserved at `extra/chat-history.md`, outside the generated `lean/` folder; no original generated file is modified. The final combined [CI run 45557465434](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45557465434) passed Lean, the symbolic/numerical checks, the exact manuscript digest check, Beamer compilation and PDF publication. The formalization remains partial and the independent semantic review remains open.

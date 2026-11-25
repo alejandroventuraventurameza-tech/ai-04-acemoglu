@@ -92,7 +92,7 @@ $\sigma^{-2}\ge\sqrt2-1$).
 | `README.md` | This page |
 | `prompts.md` | Conversation excerpts, retained summaries and a log of missing original transcripts |
 | `hand/` | Handwritten derivation(s) — see `hand/README.md` |
-| `presentation.tex` / `.pdf` | The required 20-minute Beamer deck (source and compiled PDF committed; hand evidence pending) |
+| `presentation.tex` / `.pdf` | The required 20-minute Beamer deck (source and compiled PDF committed; approved hand evidence included on slide 16) |
 | `extra/tutorial-ako.pdf` | Deep-immersion tutorial (18 pp.). Part I: static problem, Observations 1–2, the bridge to Lemma 2. Part II: welfare, the trap, and the $\Delta_I>0$ extension with proofs |
 | `extensions.md` | Dead ends (already in §5), what we relaxed ($\Delta_I>0$, planner, discounting), and four open extensions |
 | `extra/five-questions.md` | The question, the answer, the argument, the contribution, and what is unconvincing |
@@ -105,7 +105,7 @@ $\sigma^{-2}\ge\sqrt2-1$).
 
 ## Delivery status
 
-The student reports the professor authorized late delivery and GPT-6 with xhigh reasoning effort; the presentation has already taken place. Slides remain a required repository artifact. The official AppliedModelingLib partial run is checked and imported; the original manuscript PDF and final conversation transcript still need to be present in GitHub; this is a candidate, not a final submission. See [PR #1](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/pull/1).
+The student reports the professor authorized late delivery and GPT-6 with xhigh reasoning effort; the presentation has already taken place. Slides remain a required repository artifact. The official partial formalization is checked and imported. The [corrected manuscript](../hand/ai-04.pdf), [original Codex conversation](chat-history.md), and [compiled deck](../presentation.pdf) are published. The separate original cold-test answers remain unavailable; full source-semantic proof coverage is not claimed. See [PR #1](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/pull/1).
 
 ## Reproduce
 

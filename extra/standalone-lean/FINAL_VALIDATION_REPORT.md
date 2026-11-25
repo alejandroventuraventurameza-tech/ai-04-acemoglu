@@ -44,3 +44,7 @@ The course explicitly requires the complete **own-generated** `papers/AKO26Knowl
 ## Subsequent official run (25 November 2026)
 
 The separate official intake completed successfully in run 45554882759. See ../aml-evidence/README.md for the actual official check, proof build, axiom output, and verified generated-folder import. This standalone report is retained as historical evidence, not an official generated audit file.
+
+## Delivery check with the corrected handwritten proof
+
+[Run 45557465434](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45557465434) verified the relocated standalone project (8317 build jobs; 64 declarations, standard axiom allowlist), all simulations, the corrected handwritten PDF SHA-256, and the 18-page slide compilation and publication. See [the original Codex transcript](../chat-history.md) for the original WSL T1/T2 evidence. The complete official generated partial formalization is at `../../lean/` and its recorded checks remain in `../aml-evidence/`.

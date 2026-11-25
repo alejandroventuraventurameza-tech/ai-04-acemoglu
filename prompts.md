@@ -175,7 +175,7 @@ Copy the answers here **raw**.
 
 ## Session 3 — ChatGPT (Lean 4)
 
-The original September transcript has not been recovered. The subsequent own-run evidence and genuine excerpts from the November continuation appear below; they are not represented as a substitute for the unavailable historical transcript.
+The student supplied the [original exported Codex conversation](extra/chat-history.md) (1,459 lines, exported 2026-11-25, thread “Verificar formalmente T1 en Lean”). It records the initial prompt, the T1/T2 formalization, actual WSL builds, revisions and workflow decisions. The complete export is preserved byte for byte; its tail includes setup discussion for the next project (`ai-05-ide`), not part of AKO's proof evidence. The separate cold-test answers and full Claude session export remain unavailable; the available original excerpts and labeled summaries are retained.
 
 
 ---
@@ -229,4 +229,5 @@ The following are selected verbatim conversation passages from the current proje
 - Draft PR: https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/pull/1
 - Successful expanded standalone Lean, numeric and Beamer run: https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45551690557
 - Official upstream intake (separate from the standalone build): https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45551762272
-- The proof boundary and assumptions are documented in the validation report; the original September raw transcript and hand artifact remain pending.
+- The proof boundary and assumptions are documented in the [validation report](extra/standalone-lean/FINAL_VALIDATION_REPORT.md). The original Codex export and corrected [handwritten proof](hand/ai-04.pdf) are now published. The separate cold-test answers remain unavailable.
+- Final combined verification: https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45557465434 (all four jobs successful; exact handwritten PDF hash verified; 18-page Beamer PDF published).
