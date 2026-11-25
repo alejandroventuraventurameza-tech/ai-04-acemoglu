@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: leanprover/lean-action@v1
         with:
-          lake-package-directory: lean
+          lake-package-directory: extra/standalone-lean
           build: true
           test: false
           lint: false
@@ -56,6 +56,13 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-lang-spanish
+      - name: Verify approved manuscript bytes when present
+        run: |
+          if test -f hand/ai-04.pdf; then
+            echo '4fcd54609e40a696467950353b6408fbd9145c35ce5f715253769c992c7407dd  hand/ai-04.pdf' | sha256sum -c -
+          else
+            echo 'Approved manuscript not yet uploaded; slides will show the explicit placeholder.'
+          fi
       - name: Compile slides
         run: latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error presentation.tex
       - name: Save compiled presentation

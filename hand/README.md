@@ -1,8 +1,8 @@
 # Handwritten derivation: Observation 1 and partial crowding-out
 
-The student supplied the original six-page handwritten PDF in the project chat on 25 November 2026. Its content has been reviewed. The repository copy must be the unchanged PDF at hand/ai-04.pdf.
+The student supplied the corrected six-page handwritten PDF in the project chat on 25 November 2026 (`ai-04(1).pdf`). All six pages were reviewed and approved. The canonical repository copy must be the unchanged corrected PDF at `hand/ai-04.pdf`. This review does not itself assert that the binary file has been uploaded to GitHub.
 
-Original SHA-256: 80c8b9dad0381cf7003feebc7dba4ab7ad08821dea0829297b949e22b2263f6e (1,668,704 bytes; six landscape pages).
+Approved corrected PDF SHA-256: `4fcd54609e40a696467950353b6408fbd9145c35ce5f715253769c992c7407dd` (1,667,598 bytes; six landscape A4 pages).
 
 | Pages | Checked content |
 |---|---|
@@ -12,6 +12,6 @@ Original SHA-256: 80c8b9dad0381cf7003feebc7dba4ab7ad08821dea0829297b949e22b2263f
 | 5 | Partial crowding-out and strict bounds on total contextual-precision response |
 | 6 | Audit verdict: a previous extraction confused the FOC with the objective |
 
-Minor notation clarification on p. 4: the denominator of the implicit derivative is the second partial U_ee, not a differential operator applied to U_ee. At tau_A=0 the comparative static is interpreted from the feasible right side (or by local extension). G(X)>0 follows directly from the normal CDF for X>0. The extension on p. 5 is analytic, not a claimed fully Lean-certified result.
+The notation correction on p. 4 has been verified visually: both implicit derivatives now have the second partial $U_{ee}$ in the denominator. At tau_A=0 the comparative static is interpreted from the feasible right side (or by local extension). G(X)>0 follows directly from the normal CDF for X>0. The extension on p. 5 is analytic, not a claimed fully Lean-certified result.
 
-The optional Lemma 2 handwritten exercise is not required. The presentation displays page 3 of the original PDF once that file is present in GitHub.
+The optional Lemma 2 handwritten exercise is not required. The presentation displays page 3 of the approved corrected PDF once that file is present in GitHub. The CI checks the approved digest when the file is present.
