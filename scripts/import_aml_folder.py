@@ -24,7 +24,7 @@ REQUIRED = {"README.md", "status.json", "PaperInterface.lean",
             "ProofInterface.lean", "MainTheorems.lean", "Assumptions.lean", ".gitignore"}
 LOGS = ("generated-file-list.txt", "check-exit-codes.txt",
         "paper-contribution-check-fast.log", "paper-build.log", "axioms.log",
-        "source-sha256.txt", "pdfinfo.txt", "scaffold.log")
+        "source-sha256.txt", "pdfinfo.txt", "scaffold.log", "status-sync.log")
 
 
 def sha(data):
@@ -91,6 +91,8 @@ def main():
         extracted.mkdir()
         with tarfile.open(archive, "r:gz") as tar:
             for member in tar:
+                if member.isdir() and PurePosixPath(member.name) == PurePosixPath("papers"):
+                    continue
                 rel = safe_path(member.name)
                 if member.isdir():
                     (extracted / str(rel)).mkdir(parents=True, exist_ok=True)
@@ -113,7 +115,9 @@ def main():
     for name in LOGS:
         src = artifact / name
         if src.is_file():
-            shutil.copy2(src, evidence / name)
+            # Root .gitignore excludes *.log; retain exact bytes as .log.txt.
+            out_name = name + ".txt" if name.endswith(".log") else name
+            shutil.copy2(src, evidence / out_name)
     record = {
         "run_id": args.run_id,
         "upstream_commit": UPSTREAM,
@@ -121,6 +125,7 @@ def main():
         "source_sha256": source_digest,
         "archive_sha256": sha(archive.read_bytes()),
         "checks": codes,
+        "evidence_files": {p.name: sha(p.read_bytes()) for p in sorted(evidence.iterdir())},
         "files": manifest,
     }
     (evidence / "import-manifest.json").write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")
@@ -134,7 +139,9 @@ def main():
         f"Focused root build exit code: {codes['focused_root_build']}.\n\n"
         f"Axioms command exit code: {codes['axioms_command']} (125 means not run).\n\n"
         f"The {len(manifest)} tracked generated files were copied into lean/ without "
-        "altering any file contents or executable bits. The original standalone project "
+        "altering any file contents or executable bits. Captured logs use the .log.txt "
+        "suffix so ordinary git add preserves them; their bytes are unchanged. "
+        "The original standalone project "
         "was retained separately at extra/standalone-lean/. This record does not imply "
         "a complete semantic review or a full-paper proof.\n"
     )
