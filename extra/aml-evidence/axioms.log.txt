@@ -1,0 +1,7 @@
+'AKO26KnowledgeCollapse.observationOne' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AKO26KnowledgeCollapse.t1SubstitutionEngine_holds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AKO26KnowledgeCollapse.t2ObservationOne_holds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AKO26KnowledgeCollapse.t3ObservationTwoRoot_holds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AKO26KnowledgeCollapse.t4Maintenance_holds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AKO26KnowledgeCollapse.t6PositiveEffortAtZero_holds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AKO26KnowledgeCollapse.t7PlannerValue_holds' depends on axioms: [propext, Classical.choice, Quot.sound]

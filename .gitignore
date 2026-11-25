@@ -1,0 +1,36 @@
+# LaTeX build artefacts
+*.aux
+*.log
+*.out
+*.toc
+*.nav
+*.snm
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# macOS
+.DS_Store
+
+# Never commit personal documents to a public teaching repository
+DNI*
+*_DNI*
+
+# The article itself: third-party PDF, fetch it from arXiv
+paper/*.pdf
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Lean / Lake build artefacts (if the lean/ project is built locally)
+lean/.lake/
+lean/build/
+extra/standalone-lean/.lake/
+extra/standalone-lean/build/
+
+# Local working files that must never reach the public repository
+*.docx
+/acemoglu_kong_ozdaglar_*.pdf
+/Claude outputs/

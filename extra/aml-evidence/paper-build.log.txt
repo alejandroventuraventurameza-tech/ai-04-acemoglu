@@ -1,0 +1,5 @@
+⚠ [8313/8317] Replayed AKO26KnowledgeCollapse.MainTheorems
+warning: papers/AKO26KnowledgeCollapse/MainTheorems.lean:544:32: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Build completed successfully (8317 jobs).

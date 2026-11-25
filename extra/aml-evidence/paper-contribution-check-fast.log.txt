@@ -1,0 +1,9 @@
++ lake build +AKO26KnowledgeCollapse.PaperInterface
+⚠ [8313/8315] Built AKO26KnowledgeCollapse.MainTheorems (4.2s)
+warning: papers/AKO26KnowledgeCollapse/MainTheorems.lean:544:32: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+✔ [8314/8315] Built AKO26KnowledgeCollapse.Assumptions (2.7s)
+✔ [8315/8315] Built AKO26KnowledgeCollapse.PaperInterface (2.8s)
+Build completed successfully (8315 jobs).
++ git diff --check -- papers/AKO26KnowledgeCollapse papers/AKO26KnowledgeCollapse.lean lakefile.toml ':(exclude)papers/AKO26KnowledgeCollapse/source/'

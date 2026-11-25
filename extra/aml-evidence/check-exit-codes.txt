@@ -1,0 +1,3 @@
+paper_contribution_check_fast=0
+focused_root_build=0
+axioms_command=0
