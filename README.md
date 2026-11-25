@@ -29,8 +29,8 @@ Decentralized steady-state welfare is not necessarily increasing in AI accuracy:
 ## Evidence and reproduction
 
 - [Beamer source](presentation.tex) · [18-slide PDF](presentation.pdf) · [handwritten evidence status](hand/README.md).
-- [Conversation log](prompts.md) · [Lean scope and validation](lean/FINAL_VALIDATION_REPORT.md) · [successful CI](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45551690557).
-- Six standalone Lean targets (T1, T2, T3, T4, T6, T7) compile; 64 declarations pass the standard-axiom audit. The concrete Gaussian CDF bridge and full source correspondence remain open. The official AppliedModelingLib folder/check and handwritten artifact are pending.
+- [Conversation log](prompts.md) · [official Lean folder](lean/README.md) · [scope and validation](extra/standalone-lean/FINAL_VALIDATION_REPORT.md) · [official check evidence](extra/aml-evidence/README.md) · [successful CI](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45551690557).
+- Six standalone Lean targets (T1, T2, T3, T4, T6, T7) compile; 64 declarations pass the standard-axiom audit. The concrete Gaussian CDF bridge and full source correspondence remain open. The official AppliedModelingLib folder contains 20 unchanged generated files; its fast check, focused build, and seven selected axiom checks passed in run 45554882759. The handwritten derivation has been reviewed; its original PDF must still be added to the GitHub branch.
 - Reproduce the illustrative figures with `pip install -r requirements.txt`, `python sim/verify_static.py`, `python sim/fig_static.py` and `python sim/welfare.py`.
 
 The student reports permission for late submission and GPT-6 with xhigh reasoning effort. The oral presentation already took place. The [draft PR](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/pull/1) remains open pending the required evidence.

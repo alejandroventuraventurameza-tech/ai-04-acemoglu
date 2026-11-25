@@ -27,6 +27,8 @@ __pycache__/
 # Lean / Lake build artefacts (if the lean/ project is built locally)
 lean/.lake/
 lean/build/
+extra/standalone-lean/.lake/
+extra/standalone-lean/build/
 
 # Local working files that must never reach the public repository
 *.docx

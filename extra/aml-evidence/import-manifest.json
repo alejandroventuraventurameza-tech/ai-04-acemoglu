@@ -1,0 +1,105 @@
+{
+  "archive_sha256": "60454432dea46276bf7336d583bd28c9ec048f44cf3cd587055a9680195429cf",
+  "checks": {
+    "axioms_command": 0,
+    "focused_root_build": 0,
+    "paper_contribution_check_fast": 0
+  },
+  "evidence_files": {
+    "axioms.log.txt": "a88469b199c3c84af50e6d14b81531afa52647e6af7bc48865fb80c174be6cb1",
+    "check-exit-codes.txt": "97e66dd467cf37cd91e0c19b48f05537e130fa9995c74897f013fabfd647c071",
+    "generated-file-list.txt": "3a14745497b29b3636dfd6f7cda3f6846193565ba1b5f9ba6500fcdc1b597ca3",
+    "paper-build.log.txt": "13d1721f631ccc100d42c2c6d9cbcf55339df8559e4c8ce3b044e837ee573ecd",
+    "paper-contribution-check-fast.log.txt": "52956d7a8d07ddb9fa49be635a9adc25ba7f14e0537a406cb60e3d7edc62acc9",
+    "pdfinfo.txt": "1c295367a2abb3990c5db8e7814d19b7dd51700ad5bd76976b97a151bf2f43bf",
+    "scaffold.log.txt": "fcfc27a468afabd1c8b28bd3fb5f89a6d5b2b3c2d30281fe082c85c0f45f537b",
+    "source-sha256.txt": "a3fb27d08a371a674439d9381f913e14eee4667bb58c13ffbdaf13ee145f21fb",
+    "status-sync.log.txt": "4ac9252090039d0a28c71c11174f274925518cc85f833516448d98e65c634e7f"
+  },
+  "files": {
+    ".gitignore": {
+      "git_mode": "100644",
+      "sha256": "fd9f67c80e311a15f7b601ef4f38d84825424d2d3e2beae257f1f27c49096c76"
+    },
+    "Assumptions.lean": {
+      "git_mode": "100644",
+      "sha256": "26ae32b06a69786d525a191b09b8905c32d048f7bc7b7f0846dea7b2375c3aed"
+    },
+    "MainTheorems.lean": {
+      "git_mode": "100644",
+      "sha256": "74b329eaed99ec78c122218e5949814008b2219586a80d7bba849d7bffd56782"
+    },
+    "PaperInterface.lean": {
+      "git_mode": "100644",
+      "sha256": "2f10b34e41f7ae655662fe5195c6d4bac950b8db034d38d315638cfcf834fe23"
+    },
+    "ProofInterface.lean": {
+      "git_mode": "100644",
+      "sha256": "8b16182b66dd41ca404fe1a516e79a8ab8ca8de9c40974f93e9e67a1b71dfd83"
+    },
+    "README.md": {
+      "git_mode": "100644",
+      "sha256": "446db6eef3d9800fd1c9ff4dcde7b699651d1f5d6207c68dd7c639dc523bfe1c"
+    },
+    "audit/assumption_match_llm.json": {
+      "git_mode": "100644",
+      "sha256": "0be34057bae8d77ce5a38b469fdf13aeed4bea3fa21923808d4c1507680beefc"
+    },
+    "audit/defect_support_match_llm.json": {
+      "git_mode": "100644",
+      "sha256": "95c7b043e5c113460631d1f9f8c4988480069a30379a2363e49fc6274c29f5d5"
+    },
+    "audit/library_semantic_review.json": {
+      "git_mode": "100644",
+      "sha256": "18c6eabb0972a50788326112f9d987eee8518dce111c375f5c2068c323f705ae"
+    },
+    "audit/paper_statement_map.json": {
+      "git_mode": "100644",
+      "sha256": "b095d2fe46bec870462bdbe33931eec44b4e63847e872f68c570c4c969dcad2f"
+    },
+    "audit/source_proof_fidelity.json": {
+      "git_mode": "100644",
+      "sha256": "57268cc6d7fbb54dac12d5de8c6ba5c83a3322207bdb22423e3809b89b4882ce"
+    },
+    "audit/v11_raw_source_spec_screening.json": {
+      "git_mode": "100644",
+      "sha256": "8c1e6569ced0372ffeb28c0b75062989ceb4f8e6d3fce65b13da8c25c3478460"
+    },
+    "audit/v11_source_map_preparation_config.json": {
+      "git_mode": "100644",
+      "sha256": "483d92c624b02303e4c6bc6f7801bfa122c1a34405fbd34adbe2038e1f5fecf9"
+    },
+    "docs/AGENT_SOURCE_AUDIT.md": {
+      "git_mode": "100644",
+      "sha256": "cd456f9b1b00439982755abb606b78add41e04406515580839a7f2df61227132"
+    },
+    "docs/CHECK_EXIT_CODES.txt": {
+      "git_mode": "100644",
+      "sha256": "97e66dd467cf37cd91e0c19b48f05537e130fa9995c74897f013fabfd647c071"
+    },
+    "docs/FORMALIZATION_NOTES.md": {
+      "git_mode": "100644",
+      "sha256": "0e8c35b22ac8e15ca6610563a9d0f0bc0d0985aee8e32e77331547a4d4957215"
+    },
+    "docs/FORMALIZATION_PLAN.md": {
+      "git_mode": "100644",
+      "sha256": "19c114d3b4bd89b2431f809694f026bd90a490c3656dde7de5c7e2ae5c401f08"
+    },
+    "docs/FORMALIZATION_WORKING_MEMO.md": {
+      "git_mode": "100644",
+      "sha256": "1431f8bb4c147b930e9ff89d39129b4a005c51fa792d51b0908b3aac0c12e64e"
+    },
+    "review-dashboard.sh": {
+      "git_mode": "100755",
+      "sha256": "f2e587a1a991bbb3fdb76b1b3d5433c64578a944d02a1d4d7c47396e20147f9f"
+    },
+    "status.json": {
+      "git_mode": "100644",
+      "sha256": "56d258e2c81d6563db4a1db83da6d87e8f6d6c6f5f990876e9c96a2cb4f9cb38"
+    }
+  },
+  "paper": "AKO26KnowledgeCollapse",
+  "run_id": 45554882759,
+  "source_sha256": "63e37f2af463422e587c9bd81cda3bb555404a6ad65763aca0f9bebb8e2d4ec6",
+  "upstream_commit": "194edcc95df74806a39b961d10dedddc6e730cce"
+}
