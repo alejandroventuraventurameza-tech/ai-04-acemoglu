@@ -52,7 +52,7 @@ precisions add, and $G$ is concave because $g'(\tau) = -g(\tau)\frac{1+\tau}{2\t
 $e(X,\tau_A)$ is the unique root of $\Delta_X G(X)\lambda_I g(Y)=e^{1/\varepsilon}$, increasing
 in $X$ and decreasing in $\tau_A$, strictly for $X>0$.
 
-**Conditions it rests on:** positive $\\lambda_I$, $X>0$ for strict signs, Gaussian states and signals (precisions add); AI informative only
+**Conditions it rests on:** positive $\lambda_I$, $X>0$ for strict signs, Gaussian states and signals (precisions add); AI informative only
 about the idiosyncratic state; Assumption 1; $\sigma^{-2}>0$; isoelastic effort cost
 (Frisch elasticity $\varepsilon>0$); atomistic agents.
 

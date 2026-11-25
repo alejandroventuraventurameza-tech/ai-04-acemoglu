@@ -288,9 +288,9 @@ theorem t1SubstitutionEngine_holds :
   exact Real.rpow_lt_rpow_of_neg ha hab (by norm_num)
 \end{lstlisting}
 \begin{block}{Qué se comprueba}
-La línea citada usa una potencia de exponente negativo para formalizar su decrecimiento; el resto de la prueba combina positividad y monotonía de $\exp(-\tau/2)$. La primera ejecución de Lean verificó esta especificación; el alcance es el enunciado formal, no todo el artículo.
+La potencia de exponente negativo es decreciente; la prueba combina este hecho con la positividad y monotonía de $\exp(-\tau/2)$. T1 compiló y pasó la auditoría de axiomas.
 \end{block}
-\slidenote{Ruta: \texttt{lean/AKO26KnowledgeCollapse/ProofInterface.lean}. El bloque es un extracto (líneas intermedias omitidas), no un programa autónomo.}
+\slidenote{Fuente: \texttt{ProofInterface.lean} (extracto).}
 \end{frame}
 
 \begin{frame}{El límite de la formalización: especificación versus artículo}

@@ -7,7 +7,7 @@
 - Commit: `e5ec1ac4873c589c1ed246870d790ed66afc97d5` (PR #1).
 - [GitHub Actions run 45548281818](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45548281818), Lean job [138983050872](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45548281818/job/138983050872): **Build completed successfully (8317 jobs)**. Axiom audit: **47 declarations**, all within `propext, Classical.choice, Quot.sound`.
 - [Numerical job 138983050832](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45548281818/job/138983050832): all static-block assertions passed; all eight figures reproduced. These computations do not prove global dynamic results.
-- Beamer job failed because `\\note` was already defined. The conflict has been repaired in source; the new build is not yet certified.
+- Beamer job failed because `\\note` was already defined. The conflict was repaired and the next Beamer build (run 45551232138) produced an 18-page PDF. That build reported a small vertical overflow in the Lean slide, now shortened. The same run stopped on two definitions involving noncomputable real division; both have been marked `noncomputable`. The amended proof code requires a new build.
 
 ## Target ledger
 

@@ -164,11 +164,11 @@ def t3ObservationTwoRootSpec : Prop :=
 /-- Public precision after depreciation; K = lambda_G * I.
 The rational form gives the continuous economic extension at zero input.
 Using inverse-of-inverse directly at zero in Lean would produce the wrong value. -/
-def publicPrecisionNext (Sigma2 K X effort : ℝ) : ℝ :=
+noncomputable def publicPrecisionNext (Sigma2 K X effort : ℝ) : ℝ :=
   (X + K * effort) / (1 + Sigma2 * (X + K * effort))
 
 /-- The effort needed to maintain a strictly positive public precision. -/
-def maintenanceEffort (Sigma2 K X : ℝ) : ℝ :=
+noncomputable def maintenanceEffort (Sigma2 K X : ℝ) : ℝ :=
   Sigma2 * X ^ 2 / (K * (1 - Sigma2 * X))
 
 /-- T4: exact maintenance-effort factorization and strict comparison. -/
