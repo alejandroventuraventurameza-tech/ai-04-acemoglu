@@ -310,24 +310,21 @@ T2 no demuestra por sí solo que la función concreta de precisión gaussiana sa
 \end{frame}
 
 \begin{frame}{Auditoría manuscrita: no confiar ciegamente en la IA}
-\begin{columns}[T,onlytextwidth]
-\column{0.46\textwidth}
-\IfFileExists{hand/obs1-crowding-out.jpg}{
-\includegraphics[width=\linewidth,height=0.68\textheight,keepaspectratio]{hand/obs1-crowding-out.jpg}
+\IfFileExists{hand/ai-04.pdf}{
+  \begin{center}
+  \includegraphics[page=3,width=0.96\linewidth,height=0.69\textheight,keepaspectratio]{hand/ai-04.pdf}
+  \end{center}
+  \slidenote{Derivación original, p.~3. Veredicto (p.~6): la extracción confundió la FOC con la función objetivo; los signos de la Observación 1 son correctos.}
 }{
-\fbox{\parbox{0.9\linewidth}{\centering\medskip Evidencia manuscrita original pendiente\\\medskip \texttt{hand/obs1-crowding-out.jpg}\medskip}}
+  \begin{block}{Evidencia revisada, PDF pendiente de incorporación a GitHub}
+  La derivación corregida de seis páginas contiene ambos signos y la extensión de desplazamiento parcial. Se verificó el denominador $U_{ee}$ en p.~4.
+  \end{block}
+  \[
+  g'(\tau)=-\frac{1+\tau}{2\tau}g(\tau),\qquad
+  U_{eX}>0,\quad U_{e\tau_A}<0.
+  \]
+  \slidenote{La extracción previa confundió la FOC con el objetivo; no es un error del artículo. El PDF corregido debe incorporarse en \texttt{hand/ai-04.pdf}.}
 }
-\column{0.5\textwidth}
-\textbf{Paso a verificar a mano:}
-\[
-g'(\tau)=-\frac{1+\tau}{2\tau}g(\tau).
-\]
-\textbf{Luego:}
-\[
-U_{e\tau_A}=\Delta_X\lambda_I G(X)g'(Y)<0.
-\]
-\textbf{Veredicto:} el signo es correcto si $X>0$ y se cumplen los supuestos. Una extracción previa confundió la FOC con el objetivo.
-\end{columns}
 \end{frame}
 
 \begin{frame}{Reproducibilidad y estado de auditoría}
@@ -336,10 +333,10 @@ U_{e\tau_A}=\Delta_X\lambda_I G(X)g'(Y)<0.
 \item \texttt{python sim/verify\_static.py}: identidades simbólicas de la estática.
 \item \texttt{python sim/fig\_static.py}: figuras 1--3.
 \item \texttt{python sim/welfare.py}: figuras 4--8.
-\item \texttt{cd lean \&\& lake build}: prueba kernel del proyecto Lean autónomo.
+\item \texttt{cd extra/standalone-lean \&\& lake build}: prueba kernel del proyecto Lean autónomo.
 \end{itemize}
-\begin{block}{Lo que falta certificar}
-La ejecución del flujo oficial de AppliedModelingLib, su carpeta completa \texttt{papers/AKO26KnowledgeCollapse/} copiada a \texttt{lean/}, el \texttt{paper\_contribution.py check --fast}, y la fotografía manuscrita. El progreso parcial debe declararse como tal.
+\begin{block}{Resultado de verificación y alcance}
+Flujo oficial: \texttt{check --fast}, compilación del módulo y siete comprobaciones de axiomas aprobadas (run 45554882759). Carpeta generada en \texttt{lean/}. El alcance es parcial; no se certifica el artículo completo. La evidencia manuscrita debe figurar en el repositorio.
 \end{block}
 \end{frame}
 

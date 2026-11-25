@@ -1,4 +1,4 @@
-# AppliedModelingLib own-run execution record (in progress)
+# AppliedModelingLib own-run execution record
 
 Pinned upstream: `nikhgarg/AppliedModelingLib@194edcc95df74806a39b961d10dedddc6e730cce`.
 
@@ -32,8 +32,12 @@ The initial artifact (ID 14995146566) preserves the actual failed intake evidenc
 - Checks the exact source digest against attempt 1.
 - Uses the unmodified official `paper_contribution.py new` facade for the initial paper scaffold. To avoid repeating a 24-minute unrelated library facade build, the pinned generator's rendering functions then prepare the source-pinned draft; the actual paper-scoped check and focused root build validate the resulting files. This is not the direct `new --statement-spec` path and does not claim independent source-semantic acceptance.
 - Reuses only our own verified Lean helper proofs from commit `4ab2975b14e0fb2a776bda9e5dc04ba798645b00`.
-- The result of `python3 scripts/paper_contribution.py check AKO26KnowledgeCollapse --fast` is not yet available. All failed or incomplete results will be distinguished from the earlier successful standalone build.
+- The official fast check exited 0 (8,315 build jobs), the full focused paper build exited 0 (8,317 jobs), the seven axiom checks exited 0 with only propext, Classical.choice and Quot.sound, and status synchronization exited 0. See extra/aml-evidence/ for the exact logs and import manifest. No full-paper semantic certification is claimed.
 
 ## Original prompt evidence
 
 The original prompt document was located in the student's available indexed files and the recovered exact text added to `prompts.md`. Original September assistant transcripts were not located. No reconstructed conversation is labeled as raw.
+
+## Exact generated-folder import
+
+All 20 tracked generated files from run 45554882759 are installed at lean/, with matching SHA-256 digests and Git modes. Source PDFs, extracted source text and private review traces were excluded by the original upstream ignore rules. The previous standalone project was preserved at extra/standalone-lean/. The import manifest and logs are outside the generated folder.

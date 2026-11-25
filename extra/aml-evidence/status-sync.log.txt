@@ -1,0 +1,2 @@
+wrote papers/AKO26KnowledgeCollapse/README.md from paper-local status
+paper-local status sync complete: 1 changed; aggregate status/docs/site deferred to integration or release

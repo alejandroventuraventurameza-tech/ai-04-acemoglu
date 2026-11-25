@@ -99,13 +99,13 @@ $\sigma^{-2}\ge\sqrt2-1$).
 | `extra/version-comparison.md` | What changed between the February (NBER) and May (MIT) versions |
 | `sim/verify_static.py` | SymPy check of every algebraic step in the static block |
 | `sim/model.py`, `sim/fig_static.py`, `sim/welfare.py` | Numerical model; figures 1–3 (static block) and 4–8 (welfare, extension, transition, planner) |
-| `lean/` | Standalone Lean 4 project; T1/T2/T3/T4/T6/T7 compiled and axiom-audited in run 45551690557. Official AppliedModelingLib folder and paper-scoped check still pending. |
-| `lean/FINAL_VALIDATION_REPORT.md` | Exact proof boundary, source version, and CI evidence |
+| `extra/standalone-lean/` | Standalone Lean 4 project; T1/T2/T3/T4/T6/T7 compiled and axiom-audited in run 45551690557. The official folder and paper-scoped check are now available at the repository root: lean/ and extra/aml-evidence/. |
+| `extra/standalone-lean/FINAL_VALIDATION_REPORT.md` | Exact proof boundary, source version, and CI evidence |
 | `paper/` | How to get the PDF (not committed) |
 
 ## Delivery status
 
-The student reports the professor authorized late delivery and GPT-6 with xhigh reasoning effort; the presentation has already taken place. Slides remain a required repository artifact. The manuscript photo and the full AppliedModelingLib contribution workflow are not yet complete; this is a candidate, not a final submission. See [PR #1](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/pull/1).
+The student reports the professor authorized late delivery and GPT-6 with xhigh reasoning effort; the presentation has already taken place. Slides remain a required repository artifact. The official AppliedModelingLib partial run is checked and imported; the original manuscript PDF and final conversation transcript still need to be present in GitHub; this is a candidate, not a final submission. See [PR #1](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/pull/1).
 
 ## Reproduce
 

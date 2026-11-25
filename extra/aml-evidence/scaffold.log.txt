@@ -1,0 +1,29 @@
++ /usr/bin/python3 scripts/new_paper.py https://economics.mit.edu/sites/default/files/2026-05/AI,%20Human%20Cognition%20and%20Knowledge%20Collapse%2005-05-26.pdf --folder AKO26KnowledgeCollapse --title 'AI, Human Cognition and Knowledge Collapse' --authors 'Daron Acemoglu, Dingwen Kong, Asuman Ozdaglar' --version 'MIT author version, May 5, 2026 (69 pages); NBER WP 34910' --official-url https://www.nber.org/papers/w34910 --pdf-url https://economics.mit.edu/sites/default/files/2026-05/AI,%20Human%20Cognition%20and%20Knowledge%20Collapse%2005-05-26.pdf --no-download
+wrote papers/AKO26KnowledgeCollapse/.gitignore
+wrote papers/AKO26KnowledgeCollapse/README.md
+wrote papers/AKO26KnowledgeCollapse/status.json
+wrote papers/AKO26KnowledgeCollapse/audit/library_semantic_review.json
+wrote papers/AKO26KnowledgeCollapse/audit/v11_raw_source_spec_screening.json
+wrote papers/AKO26KnowledgeCollapse/audit/defect_support_match_llm.json
+wrote papers/AKO26KnowledgeCollapse/audit/assumption_match_llm.json
+wrote papers/AKO26KnowledgeCollapse/audit/source_proof_fidelity.json
+wrote papers/AKO26KnowledgeCollapse/audit/v11_source_map_preparation_config.json
+wrote papers/AKO26KnowledgeCollapse/review-dashboard.sh
+wrote papers/AKO26KnowledgeCollapse/docs/FORMALIZATION_PLAN.md
+wrote papers/AKO26KnowledgeCollapse/docs/FORMALIZATION_WORKING_MEMO.md
+wrote papers/AKO26KnowledgeCollapse/MainTheorems.lean
+wrote papers/AKO26KnowledgeCollapse/Assumptions.lean
+wrote papers/AKO26KnowledgeCollapse/PaperInterface.lean
+wrote papers/AKO26KnowledgeCollapse/ProofInterface.lean
+wrote papers/AKO26KnowledgeCollapse.lean
+skipped PDF download
+no --statement-spec supplied; PaperInterface.lean contains no theorem placeholder
+wrote papers/AKO26KnowledgeCollapse/README.md from paper-local status
+wrote papers/AKO26KnowledgeCollapse/docs/FORMALIZATION_NOTES.md from paper-local status
+paper-local status sync complete: 2 changed; aggregate status/docs/site deferred to integration or release
+deferred dashboard cache: freeze the source inventory and PaperInterface first, then run `python3 scripts/review_dashboard.py --paper AKO26KnowledgeCollapse --refresh-cache` once
+paper scaffold ready: papers/AKO26KnowledgeCollapse
++ /usr/bin/python3 scripts/sync_paper_status.py --paper AKO26KnowledgeCollapse
+paper-local status sync complete: 0 changed; aggregate status/docs/site deferred to integration or release
+paper contribution scaffold ready: papers/AKO26KnowledgeCollapse
+next: /usr/bin/python3 scripts/paper_contribution.py check AKO26KnowledgeCollapse --fast

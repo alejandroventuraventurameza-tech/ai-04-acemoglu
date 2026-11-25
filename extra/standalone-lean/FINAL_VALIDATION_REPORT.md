@@ -40,3 +40,7 @@
 ## AppliedModelingLib contribution gate
 
 The course explicitly requires the complete **own-generated** `papers/AKO26KnowledgeCollapse/` folder and the actual result of `python3 scripts/paper_contribution.py check AKO26KnowledgeCollapse --fast`. Standalone CI success does not fulfill that gate. The pinned upstream commit used for the separate official intake is `194edcc95df74806a39b961d10dedddc6e730cce` of [AppliedModelingLib](https://github.com/nikhgarg/AppliedModelingLib). The separate [official intake run 45551762272](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45551762272) was launched from `work/aml-intake`. Its final result is not claimed here. No semantic review, generated status or audit is represented as completed unless produced by the official workflow.
+
+## Subsequent official run (25 November 2026)
+
+The separate official intake completed successfully in run 45554882759. See ../aml-evidence/README.md for the actual official check, proof build, axiom output, and verified generated-folder import. This standalone report is retained as historical evidence, not an official generated audit file.
