@@ -55,25 +55,56 @@ jobs:
       - name: Install TeX Live packages
         run: |
           sudo apt-get update
-          sudo apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-lang-spanish
-      - name: Verify approved manuscript bytes when present
+          sudo apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-lang-spanish poppler-utils
+      - name: Verify original generated folder and approved manuscript
         run: |
-          if test -f hand/ai-04.pdf; then
-            echo '4fcd54609e40a696467950353b6408fbd9145c35ce5f715253769c992c7407dd  hand/ai-04.pdf' | sha256sum -c -
-          else
-            echo 'Approved manuscript not yet uploaded; slides will show the explicit placeholder.'
-          fi
+          set -euo pipefail
+          echo '4fcd54609e40a696467950353b6408fbd9145c35ce5f715253769c992c7407dd  hand/ai-04.pdf' | sha256sum -c -
+          python3 - <<'PY'
+          import hashlib, json, subprocess
+          from pathlib import Path
+          m = json.loads(Path("extra/aml-evidence/import-manifest.json").read_text())
+          rows = subprocess.check_output(["git", "ls-files", "--stage", "-z", "lean"]).decode().split("\0")
+          actual = {}
+          for row in filter(None, rows):
+              meta, path = row.split("\t", 1)
+              mode, _, stage = meta.split()
+              assert stage == "0"
+              actual[path.removeprefix("lean/")] = {
+                  "sha256": hashlib.sha256(Path(path).read_bytes()).hexdigest(),
+                  "git_mode": mode,
+              }
+          assert actual == m["files"], "The official generated folder has changed"
+          assert len(actual) == 20 and all(v == 0 for v in m["checks"].values())
+          print("Official generated folder: all 20 files and modes match.")
+          PY
+      - name: Rasterize original handwritten page 3
+        run: |
+          pdftoppm -f 3 -l 3 -r 180 -singlefile -png hand/ai-04.pdf hand/obs1-crowding-out
+          test -s hand/obs1-crowding-out.png
       - name: Compile slides
-        run: latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error presentation.tex
-      - name: Save compiled presentation
+        run: |
+          latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error presentation.tex
+          test "$(pdfinfo presentation.pdf | awk '/^Pages:/ {print $2}')" = 18
+          if grep -E 'Overfull \\\\[hv]box|Missing character:' presentation.log; then exit 1; fi
+          mkdir -p /tmp/ako-slide-qa
+          pdftoppm -f 14 -l 16 -r 150 -png presentation.pdf /tmp/ako-slide-qa/slide
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ako-refinement-slide-qa
+          path: /tmp/ako-slide-qa/*.png
+          if-no-files-found: error
+      - name: Save compiled presentation and original manuscript image
         uses: actions/upload-artifact@v4
         with:
           name: ako-presentation-pdf
-          path: presentation.pdf
+          path: |
+            presentation.pdf
+            hand/obs1-crowding-out.png
           if-no-files-found: error
 
   publish-presentation:
-    name: Commit verified Beamer PDF to analysis
+    name: Commit verified Beamer PDF and manuscript image to analysis
     if: github.event_name == 'push' && github.ref == 'refs/heads/analysis'
     needs: [lean, simulation, presentation]
     runs-on: ubuntu-latest
@@ -87,12 +118,13 @@ jobs:
         with:
           name: ako-presentation-pdf
           path: .
-      - name: Commit PDF only to the source branch
+      - name: Commit verified PDF and handwritten image to the source branch
         run: |
           test -s presentation.pdf
-          git add presentation.pdf
+          test -s hand/obs1-crowding-out.png
+          git add presentation.pdf hand/obs1-crowding-out.png
           if git diff --cached --quiet; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'build(slides): publish verified Beamer PDF [skip ci]'
+          git commit -m 'build(slides): publish refined deck and original handwritten page [skip ci]'
           git push origin HEAD:analysis

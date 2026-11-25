@@ -45,3 +45,7 @@ All 20 tracked generated files from run 45554882759 are installed at lean/, with
 ## Final repository evidence
 
 The user subsequently uploaded the corrected manuscript and the original Codex chat export. The export is preserved at `extra/chat-history.md`, outside the generated `lean/` folder; no original generated file is modified. The final combined [CI run 45557465434](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45557465434) passed Lean, the symbolic/numerical checks, the exact manuscript digest check, Beamer compilation and PDF publication. The formalization remains partial and the independent semantic review remains open.
+
+## Scope of the final refinement
+
+The source-facing `observationOneSpec` is the actual generated transparent proposition. Its endpoint `observationOne` passes the focused build and axiom checks; T1 and the other helper results are in `MainTheorems.lean`. The generator rendering functions were invoked directly after the official scaffold to work around the Python/intake bottleneck. This is an own-run **adapted partial workflow**, not a claim that every official semantic-review or source-inventory stage was completed. The generated `lean/` folder is preserved unchanged. The independent handwritten derivation and symbolic checks are complementary evidence, not a substitute for the remaining Lean bridges. The final deck presents the full T1 Spec and a literal proof fragment, and the original PDF page is rasterized without alteration for direct inspection.

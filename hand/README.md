@@ -15,3 +15,9 @@ Approved corrected PDF SHA-256: `4fcd54609e40a696467950353b6408fbd9145c35ce5f715
 The notation correction on p. 4 has been verified visually: both implicit derivatives now have the second partial $U_{ee}$ in the denominator. At tau_A=0 the comparative static is interpreted from the feasible right side (or by local extension). G(X)>0 follows directly from the normal CDF for X>0. The extension on p. 5 is analytic, not a claimed fully Lean-certified result.
 
 The optional Lemma 2 handwritten exercise is not required. Slide 16 of the compiled [presentation](../presentation.pdf) displays page 3 of the approved PDF. The CI log confirms both its inclusion and its exact digest.
+
+## Direct image for GitHub inspection
+
+[obs1-crowding-out.png](obs1-crowding-out.png) is an unedited 180 dpi rasterization of page 3 of the approved digital handwritten PDF, not a new derivation or a claimed camera photograph. The original PDF remains the canonical evidence. Reproduce with `pdftoppm -f 3 -l 3 -r 180 -singlefile -png hand/ai-04.pdf hand/obs1-crowding-out`.
+
+![Original handwritten page 3: Observation 1](obs1-crowding-out.png)

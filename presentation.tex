@@ -271,26 +271,34 @@ e(0,\tau_A)>0\quad\Longrightarrow\quad F(0)>0.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Lean: de una afirmación económica a una prueba verificable}
-\textbf{Enunciado matemático del motor de sustitución:}
+\begin{frame}{Lean: enunciado exacto y paso central de T1}
+\textbf{Objeto del artículo (MIT, p.~13):} marginal de la probabilidad de éxito.
 \[
-g(\tau)=\frac{e^{-\tau/2}}{\sqrt{2\pi\tau}},\quad
-\tau>0;\qquad
-g(\tau)>0,\quad \tau_1<\tau_2\Rightarrow g(\tau_2)<g(\tau_1).
+g(\tau)=G'(\tau)=\frac{\exp(-\tau/2)}{\sqrt{2\pi\tau}},
+\quad
+g(\tau)>0\ (\tau>0),\quad
+0<a<b\ \Longrightarrow\ g(b)<g(a).
 \]
-\textbf{Traducción en el repositorio:}
-\begin{lstlisting}[basicstyle=\ttfamily\scriptsize,breaklines=true]
-def t1SubstitutionEngineSpec : Prop := ...
-theorem t1SubstitutionEngine_holds :
-    t1SubstitutionEngineSpec := by
-  constructor
-  ...
-  exact Real.rpow_lt_rpow_of_neg ha hab (by norm_num)
-\end{lstlisting}
-\begin{block}{Qué se comprueba}
-La potencia de exponente negativo es decreciente; la prueba combina este hecho con la positividad y monotonía de $\exp(-\tau/2)$. T1 compiló y pasó la auditoría de axiomas.
+\textbf{Especificación completa:} \texttt{gAKO} representa la expresión cerrada anterior.
+\par\smallskip
+{\small\ttfamily
+def t1SubstitutionEngineSpec : Prop :=\par
+\hspace*{1em}($\forall$ tau : $\mathbb R$, 0 $<$ tau $\to$ 0 $<$ gAKO tau) $\land$\par
+\hspace*{2em}StrictAntiOn gAKO (Set.Ioi 0)\par
+}
+\smallskip
+\textbf{Prueba (extracto de \texttt{t1SubstitutionEngine\_holds}):}
+\par\smallskip
+{\small\ttfamily
+have hrpow : b \string^ (-(1 / 2 : $\mathbb R$)) $<$\par
+\hspace*{1em}a \string^ (-(1 / 2 : $\mathbb R$)) := by\par
+\hspace*{2em}exact Real.rpow\_lt\_rpow\_of\_neg ha hab (by norm\_num)\par
+}
+\begin{block}{Qué verifica Lean}
+\small
+Con \texttt{ha}: $a>0$ y \texttt{hab}: $a<b$, el exponente $-1/2$ invierte el orden. El resto combina positividad y decrecimiento exponencial. \texttt{StrictAntiOn} restringe el dominio a $(0,\infty)$; T1 no identifica por sí solo $g_{\rm AKO}$ con la derivada de la CDF. Compilación y auditoría de axiomas aprobadas.
 \end{block}
-\slidenote{Fuente: \texttt{ProofInterface.lean} (extracto).}
+\slidenote{\texttt{lean/MainTheorems.lean}: Spec íntegro y fragmento literal; se preservan los símbolos matemáticos.}
 \end{frame}
 
 \begin{frame}{El límite de la formalización: especificación versus artículo}
@@ -299,7 +307,7 @@ La potencia de exponente negativo es decreciente; la prueba combina este hecho c
 Objeto & Qué dice realmente Lean\\
 \midrule
 T1 & Positividad y antitonicidad de la función gaussiana concreta $g_{\rm AKO}$.\\[0.5em]
-T2 & Signos y diferencias de la Observación 1 \emph{condicionados} a \texttt{AccuracyAssumptions} de $G,g,g'$.\\[0.5em]
+T2 & \texttt{observationOne}: signos y derivadas del beneficio marginal, bajo hipótesis explícitas sobre $G,g,g'$ y $G(X)>0$.\\[0.5em]
 T3, T4, T6, T7 & Se añadieron pruebas de raíces de la FOC, mantenimiento, frontera en cero y valor del planificador; ver el informe de validación.\\
 \bottomrule
 \end{tabular}
@@ -336,7 +344,7 @@ T2 no demuestra por sí solo que la función concreta de precisión gaussiana sa
 \item \texttt{cd extra/standalone-lean \&\& lake build}: prueba kernel del proyecto Lean autónomo.
 \end{itemize}
 \begin{block}{Resultado de verificación y alcance}
-Flujo oficial: \texttt{check --fast}, compilación del módulo y siete comprobaciones de axiomas aprobadas (run 45554882759). Carpeta generada en \texttt{lean/}. El alcance es parcial; no se certifica el artículo completo. La evidencia manuscrita debe figurar en el repositorio.
+Flujo oficial: \texttt{check --fast}, compilación del módulo y siete comprobaciones de axiomas aprobadas (run 45554882759). Carpeta generada en \texttt{lean/}. El alcance es parcial; no se certifica el artículo completo. El manuscrito corregido está publicado y su SHA-256 fue verificado.
 \end{block}
 \end{frame}
 
