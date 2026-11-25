@@ -251,3 +251,9 @@ The following are selected verbatim conversation passages from the current proje
 > Pero, que es lo que falta además de publicarlo en el issue. El profesor me ha permitido publicarlo a desplazo enviandole el enlace a su correo, pero quiero saber si hemos hecho de calidad y cumplido todos los requerimientos.
 
 > ok, hazlo y dime que necesitas adicionalmente que te de
+
+### User — confirmation of unavailable Claude history (25 November 2026, verbatim)
+
+> Listo, ya hice los PR. ¿Ahora? No pude recuperar los chats de Claude
+
+The complete historical Claude export could not be recovered by the student. The retained excerpts and expressly labeled summaries remain as evidence of that earlier work; they are not presented as a full raw transcript. This is a documentary limitation, not a failure of the Lean build or numerical reproduction. No historical exchanges have been fabricated. The instructor's authorization for late delivery and model configuration does not independently establish a waiver of the raw-transcript requirement.

@@ -1,0 +1,70 @@
+name: Official AppliedModelingLib intake
+on:
+  push:
+    branches: ['work/aml-intake']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Pin assigned source PDF
+        run: |
+          mkdir -p aml-evidence
+          sudo apt-get update -qq
+          sudo apt-get install -y poppler-utils
+          PDF="$RUNNER_TEMP/AKO26-MIT-2026-05-05.pdf"
+          curl --fail --location --retry 2 --max-time 120 'https://economics.mit.edu/sites/default/files/2026-05/AI,%20Human%20Cognition%20and%20Knowledge%20Collapse%2005-05-26.pdf' -o "$PDF"
+          pdfinfo "$PDF" | tee aml-evidence/pdfinfo.txt
+          test "$(pdfinfo "$PDF" | awk '/^Pages:/ {print $2}')" = 69
+          pdftotext -f 1 -l 1 "$PDF" "$RUNNER_TEMP/ako-cover.txt"
+          grep -F 'May 5, 2026' "$RUNNER_TEMP/ako-cover.txt"
+          sha256sum "$PDF" | tee aml-evidence/source-sha256.txt
+          echo '63e37f2af463422e587c9bd81cda3bb555404a6ad65763aca0f9bebb8e2d4ec6  '"$PDF" | sha256sum -c -
+      - uses: actions/checkout@v4
+        with:
+          repository: nikhgarg/AppliedModelingLib
+          ref: 194edcc95df74806a39b961d10dedddc6e730cce
+          path: upstream-aml
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: upstream-aml
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+      - name: Validate pinned upstream workflow
+        working-directory: upstream-aml
+        run: PYTHONPATH="$PWD" python3 scripts/formalization_protocol.py
+      - name: Generate own paper folder and execute official checks
+        env:
+          PYTHONPATH: ${{ github.workspace }}/upstream-aml
+        run: python3 scripts/ako_aml_intake.py
+      - name: Preserve complete generated tracked folder, including incomplete results
+        if: always()
+        run: |
+          mkdir -p aml-evidence
+          if test -d upstream-aml/papers/AKO26KnowledgeCollapse; then
+            cd upstream-aml
+            git add -- papers/AKO26KnowledgeCollapse/
+            if git ls-files papers/AKO26KnowledgeCollapse/ | grep -E '/source-audited|/source\.(pdf|txt)$|/source(s|_tex)?/|/\.review_traces/'; then
+              echo 'Refusing to archive source bytes or private review traces.'
+              exit 1
+            fi
+            git ls-files papers/AKO26KnowledgeCollapse/ > ../aml-evidence/generated-file-list.txt
+            git archive --format=tar.gz --output=../aml-evidence/AKO26KnowledgeCollapse.tar.gz "$(git write-tree)" papers/AKO26KnowledgeCollapse/
+          else
+            echo 'Official scaffold was not generated; see the preceding failure.' > aml-evidence/intake-not-generated.txt
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: official-ako-intake-evidence
+          path: aml-evidence/
+          if-no-files-found: error
