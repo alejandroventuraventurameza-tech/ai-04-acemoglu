@@ -33,7 +33,7 @@ jobs:
         run: |
           set -euo pipefail
           git fetch origin work/aml-intake
-          git checkout 2833e6c04278f2a2f8be28ad5cdf8faaebe5eb53 -- scripts/ako_aml_intake.py .github/workflows/aml-intake.yml
+          git checkout 2833e6c04278f2a2f8be28ad5cdf8faaebe5eb53 -- scripts/ako_aml_intake.py
           python3 - <<'PY'
           from pathlib import Path
           import json
@@ -57,9 +57,6 @@ jobs:
           s = s.replace("The result of "+chr(96)+"python3 scripts/paper_contribution.py check AKO26KnowledgeCollapse --fast"+chr(96)+" is not yet available. All failed or incomplete results will be distinguished from the earlier successful standalone build.", "The official fast check exited 0 (8,315 build jobs), the full focused paper build exited 0 (8,317 jobs), the seven axiom checks exited 0 with only propext, Classical.choice and Quot.sound, and status synchronization exited 0. See extra/aml-evidence/ for the exact logs and import manifest. No full-paper semantic certification is claimed.")
           s += f"\n## Exact generated-folder import\n\nAll {n} tracked generated files from run 45554882759 are installed at lean/, with matching SHA-256 digests and Git modes. Source PDFs, extracted source text and private review traces were excluded by the original upstream ignore rules. The previous standalone project was preserved at extra/standalone-lean/. The import manifest and logs are outside the generated folder.\n"
           p.write_text(s)
-          p = r/".github/workflows/verify.yml"
-          s = p.read_text().replace("lake-package-directory: lean", "lake-package-directory: extra/standalone-lean")
-          p.write_text(s)
           p = r/".gitignore"
           s = p.read_text().replace("lean/.lake/\nlean/build/", "lean/.lake/\nlean/build/\nextra/standalone-lean/.lake/\nextra/standalone-lean/build/")
           p.write_text(s)
@@ -69,23 +66,23 @@ jobs:
           p.write_text(s)
           p = r/"hand/README.md"
           p.write_text("""# Handwritten derivation: Observation 1 and partial crowding-out
-
-The student supplied the original six-page handwritten PDF in the project chat on 25 November 2026. Its content has been reviewed. The repository copy must be the unchanged PDF at hand/ai-04.pdf.
-
-Original SHA-256: 80c8b9dad0381cf7003feebc7dba4ab7ad08821dea0829297b949e22b2263f6e (1,668,704 bytes; six landscape pages).
-
-| Pages | Checked content |
-|---|---|
-| 1–2 | Gaussian accuracy and marginal accuracy; strict concavity; individual problem and FOC |
-| 3 | General-knowledge complementarity and contextual-AI substitution (Observation 1) |
-| 4 | Strict second-order condition, interiority and implicit-function comparative statics |
-| 5 | Partial crowding-out and strict bounds on total contextual-precision response |
-| 6 | Audit verdict: a previous extraction confused the FOC with the objective |
-
-Minor notation clarification on p. 4: the denominator of the implicit derivative is the second partial U_ee, not a differential operator applied to U_ee. At tau_A=0 the comparative static is interpreted from the feasible right side (or by local extension). G(X)>0 follows directly from the normal CDF for X>0. The extension on p. 5 is analytic, not a claimed fully Lean-certified result.
-
-The optional Lemma 2 handwritten exercise is not required. The presentation displays page 3 of the original PDF once that file is present in GitHub.
-""")
+          
+          The student supplied the original six-page handwritten PDF in the project chat on 25 November 2026. Its content has been reviewed. The repository copy must be the unchanged PDF at hand/ai-04.pdf.
+          
+          Original SHA-256: 80c8b9dad0381cf7003feebc7dba4ab7ad08821dea0829297b949e22b2263f6e (1,668,704 bytes; six landscape pages).
+          
+          | Pages | Checked content |
+          |---|---|
+          | 1–2 | Gaussian accuracy and marginal accuracy; strict concavity; individual problem and FOC |
+          | 3 | General-knowledge complementarity and contextual-AI substitution (Observation 1) |
+          | 4 | Strict second-order condition, interiority and implicit-function comparative statics |
+          | 5 | Partial crowding-out and strict bounds on total contextual-precision response |
+          | 6 | Audit verdict: a previous extraction confused the FOC with the objective |
+          
+          Minor notation clarification on p. 4: the denominator of the implicit derivative is the second partial U_ee, not a differential operator applied to U_ee. At tau_A=0 the comparative static is interpreted from the feasible right side (or by local extension). G(X)>0 follows directly from the normal CDF for X>0. The extension on p. 5 is analytic, not a claimed fully Lean-certified result.
+          
+          The optional Lemma 2 handwritten exercise is not required. The presentation displays page 3 of the original PDF once that file is present in GitHub.
+          """)
           p = r/"presentation.tex"
           s = p.read_text()
           start = s.index(r"\begin{frame}{Auditoría manuscrita: no confiar ciegamente en la IA}")
@@ -113,7 +110,7 @@ The optional Lemma 2 handwritten exercise is not required. The presentation disp
           s = s.replace("Lo que falta certificar", "Resultado de verificación y alcance")
           p.write_text(s)
           PY
-          git add -- README.md extra/analysis-overview.md extra/aml-intake-status.md extra/standalone-lean/FINAL_VALIDATION_REPORT.md .github/workflows/verify.yml .gitignore hand/README.md presentation.tex
+          git add -- README.md extra/analysis-overview.md extra/aml-intake-status.md extra/standalone-lean/FINAL_VALIDATION_REPORT.md .gitignore hand/README.md presentation.tex
       - name: Build presentation and ensure official folder remains unchanged
         run: |
           set -euo pipefail
