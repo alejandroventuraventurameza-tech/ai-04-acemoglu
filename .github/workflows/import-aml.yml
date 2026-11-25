@@ -22,8 +22,8 @@ jobs:
         with:
           name: official-ako-intake-evidence
           run-id: 45554882759
-          github-token: {{ github.token }}
-          path: {{ runner.temp }}/ako-intake-artifact
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/ako-intake-artifact
       - name: Import the complete generated folder and verify its Git index byte for byte
         run: |
           set -euo pipefail
