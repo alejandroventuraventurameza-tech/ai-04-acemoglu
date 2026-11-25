@@ -22,7 +22,7 @@
 \setlength{\parskip}{0.25em}
 \newcommand{\X}{X_t}
 \newcommand{\aip}{\tau_A}
-\newcommand{\note}[1]{\vspace{0.4em}{\footnotesize\color{muted}#1}}
+\newcommand{\slidenote}[1]{\vspace{0.4em}{\footnotesize\color{muted}#1}}
 \newcommand{\shortref}[1]{{\footnotesize\color{muted}#1}}
 \title[Knowledge Collapse]{AI, Human Cognition and Knowledge Collapse}
 \subtitle{Acemoglu, Kong y Ozdaglar (2026)\\Análisis económico, auditoría y formalización Lean}
@@ -51,7 +51,7 @@
 \text{menor esfuerzo privado}\ \Longrightarrow\
 \text{menos aprendizaje colectivo}.
 \]
-\note{La flecha dinámica es condicional: el colapso requiere una elasticidad suficientemente elevada y otras restricciones del modelo.}
+\slidenote{La flecha dinámica es condicional: el colapso requiere una elasticidad suficientemente elevada y otras restricciones del modelo.}
 \end{frame}
 
 \begin{frame}{Producción: por qué importan ambos tipos de conocimiento}
@@ -67,7 +67,7 @@ f(a_G,a_I)=f(0,0)+\Delta_G a_G+\Delta_I a_I+\Delta_X a_Ga_I.
 \begin{block}{Supuesto 1 del artículo}
 $\boxed{\Delta_I=0,\qquad \Delta_X>0.}$
 \end{block}
-\note{El conocimiento contextual aislado no añade producción. Esta hipótesis es decisiva para que $X=0$ absorba la economía. MIT, p. 9.}
+\slidenote{El conocimiento contextual aislado no añade producción. Esta hipótesis es decisiva para que $X=0$ absorba la economía. MIT, p. 9.}
 \end{frame}
 
 \begin{frame}{Información: precisiones gaussianas y esfuerzo}
@@ -121,7 +121,7 @@ En el óptimo interior:
 \item Costo marginal: $e^{1/\varepsilon}$.
 \item El individuo toma $X$ como dado: no recibe el beneficio futuro de su contribución pública.
 \end{itemize}
-\note{La expresión igualada a cero es una FOC, no una función objetivo que deba maximizarse; corrección explícita de una extracción automática anterior.}
+\slidenote{La expresión igualada a cero es una FOC, no una función objetivo que deba maximizarse; corrección explícita de una extracción automática anterior.}
 \end{frame}
 
 \begin{frame}{Observación 1: dos derivadas cruzadas, dos signos}
@@ -177,7 +177,7 @@ e_m(X)=\frac{\Sigma^2X^2}{\lambda_GI(1-\Sigma^2 X)},
 \begin{block}{Interpretación}
 El conocimiento colectivo crece únicamente cuando el esfuerzo elegido supera el nivel necesario para compensar la depreciación informacional.
 \end{block}
-\note{$e_m$ es una herramienta analítica de este repositorio, no una definición original de los autores.}
+\slidenote{$e_m$ es una herramienta analítica de este repositorio, no una definición original de los autores.}
 \end{frame}
 
 \begin{frame}{Por qué el umbral crítico es $\varepsilon=4$}
@@ -202,7 +202,7 @@ $\varepsilon=4$ & Importan las constantes & Caso límite\\
 \bottomrule
 \end{tabular}
 \end{center}
-\note{La teoría dinámica se explica, pero no afirmamos haber formalizado íntegramente el Lema 2 en Lean.}
+\slidenote{La teoría dinámica se explica, pero no afirmamos haber formalizado íntegramente el Lema 2 en Lean.}
 \end{frame}
 
 \begin{frame}{Ejercicio computacional: mejor respuesta y mantenimiento}
@@ -213,7 +213,7 @@ $\varepsilon=4$ & Importan las constantes & Caso límite\\
 \fbox{\parbox{0.78\linewidth}{Gráfico reproducible: \texttt{python sim/fig\_static.py}}}
 }
 \end{center}
-\note{Figura: cálculos propios con \texttt{sim/model.py}; parámetros ilustrativos, no estimación. Los cruces con $e_m$ corresponden a estados estacionarios positivos.}
+\slidenote{Figura: cálculos propios con \texttt{sim/model.py}; parámetros ilustrativos, no estimación. Los cruces con $e_m$ corresponden a estados estacionarios positivos.}
 \end{frame}
 
 \begin{frame}{La trampa del bienestar: precisión no equivale a mejora social}
@@ -229,7 +229,7 @@ $\varepsilon=4$ & Importan las constantes & Caso límite\\
 =\underbrace{\text{ganancia informacional directa}}_{>0}
 +\underbrace{\text{pérdida por menor aprendizaje}}_{<0}.
 \]
-\note{Proposiciones 10--11: el resultado de un máximo interior exige el Supuesto 2, $\sigma^{-2}\ge\sqrt2-1$, además de las condiciones del régimen dinámico.}
+\slidenote{Proposiciones 10--11: el resultado de un máximo interior exige el Supuesto 2, $\sigma^{-2}\ge\sqrt2-1$, además de las condiciones del régimen dinámico.}
 \end{frame}
 
 \begin{frame}{El experimento de falsación: ¿el planificador también pierde?}
@@ -288,9 +288,9 @@ theorem t1SubstitutionEngine_holds :
   exact Real.rpow_lt_rpow_of_neg ha hab (by norm_num)
 \end{lstlisting}
 \begin{block}{Qué se comprueba}
-La línea citada usa una potencia de exponente negativo para formalizar su decrecimiento; el resto de la prueba combina positividad y monotonía de $\exp(-\tau/2)$. Una compilación verde acreditará la prueba \emph{de esta especificación}.
+La línea citada usa una potencia de exponente negativo para formalizar su decrecimiento; el resto de la prueba combina positividad y monotonía de $\exp(-\tau/2)$. La primera ejecución de Lean verificó esta especificación; el alcance es el enunciado formal, no todo el artículo.
 \end{block}
-\note{Ruta: \texttt{lean/AKO26KnowledgeCollapse/ProofInterface.lean}. El bloque es un extracto (líneas intermedias omitidas), no un programa autónomo.}
+\slidenote{Ruta: \texttt{lean/AKO26KnowledgeCollapse/ProofInterface.lean}. El bloque es un extracto (líneas intermedias omitidas), no un programa autónomo.}
 \end{frame}
 
 \begin{frame}{El límite de la formalización: especificación versus artículo}
@@ -300,7 +300,7 @@ Objeto & Qué dice realmente Lean\\
 \midrule
 T1 & Positividad y antitonicidad de la función gaussiana concreta $g_{\rm AKO}$.\\[0.5em]
 T2 & Signos y diferencias de la Observación 1 \emph{condicionados} a \texttt{AccuracyAssumptions} de $G,g,g'$.\\[0.5em]
-T3--T8 & Objetivos documentados; todavía no hay pruebas de cierre en esta rama.\\
+T3, T4, T6, T7 & Se añadieron pruebas de raíces de la FOC, mantenimiento, frontera en cero y valor del planificador; ver el informe de validación.\\
 \bottomrule
 \end{tabular}
 \vspace{0.7em}
@@ -339,7 +339,7 @@ U_{e\tau_A}=\Delta_X\lambda_I G(X)g'(Y)<0.
 \item \texttt{cd lean \&\& lake build}: prueba kernel del proyecto Lean autónomo.
 \end{itemize}
 \begin{block}{Lo que falta certificar}
-La ejecución autenticada de AppliedModelingLib, su carpeta completa \texttt{papers/AKO26KnowledgeCollapse/} copiada a \texttt{lean/}, el \texttt{paper\_contribution.py check --fast}, y la fotografía manuscrita. El progreso parcial debe declararse como tal.
+La ejecución del flujo oficial de AppliedModelingLib, su carpeta completa \texttt{papers/AKO26KnowledgeCollapse/} copiada a \texttt{lean/}, el \texttt{paper\_contribution.py check --fast}, y la fotografía manuscrita. El progreso parcial debe declararse como tal.
 \end{block}
 \end{frame}
 

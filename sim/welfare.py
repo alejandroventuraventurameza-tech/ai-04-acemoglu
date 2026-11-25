@@ -3,7 +3,7 @@ Block 2 — welfare, the week's trap, and our extension Delta_I > 0.
 Run from the repository root:  python sim/welfare.py   -> figures/fig4..fig7 + printed table
 
 fig4  steady-state welfare U+(tau_A) in the paper's model: hump (eps<4) and hump + cliff (eps>4)
-fig5  extension Delta_I > 0: the tau_A -> infinity limit becomes Delta_I and the hump can disappear
+fig5  extension Delta_I > 0: the tau_A -> infinity limit becomes Delta_I; numerical examples retain an interior maximum
 fig6  extension Delta_I > 0: F(0) > 0, so complete knowledge collapse is impossible
 fig7  transition after an AI shock: short-run gain vs long-run loss, and the role of discounting
 fig8  planner benchmark: with the learning externality internalised, welfare is monotone in tau_A

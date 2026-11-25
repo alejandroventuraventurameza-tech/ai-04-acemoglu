@@ -25,7 +25,7 @@ and there is no trace of $\Delta_I$ in it (`extra/version-comparison.md`).
 - **One equation changes.** The FOC becomes $\lambda_I[\Delta_I+\Delta_X G(X)]\,g(Y)=e^{1/\varepsilon}$.
 - **Expected beforehand:** collapse disappears, and the welfare limit rises from 0 to $\Delta_I$.
 - **Found:** tutorial §14, Result 5; `sim/welfare.py`; figures 5–6.
-  - Observation 1 survives, and now also holds at $X=0$.
+  - Observation 1 survives for $X>0$. The negative AI cross-partial additionally holds at $X=0$; the derivative of $G$ with respect to $X$ is singular there.
   - $F(0)>0$, so there is no complete collapse for any finite $\tau_A$. A tiny "knowledge-poverty"
     floor remains, of order $\gamma^{\varepsilon/2}$.
   - Welfare converges to $\Delta_I$.
@@ -33,7 +33,7 @@ and there is no trace of $\Delta_I$ in it (`extra/version-comparison.md`).
     stays finite, and the proof reuses the threshold 4 by comparing $\gamma^{\varepsilon/4}$ with
     $\gamma$. For $\varepsilon>4$ it stays finite in every case we computed. The optimal
     accuracy $\tau_A^\star$ *increases* with $\Delta_I$.
-- **Verdict:** the collapse claim is fragile; the regulation claim is robust.
+- **Verdict:** the zero-fixed-point collapse claim depends on the production assumption; the welfare extension is established only within the analytical conditions and numerical cases reported here.
 
 ### 2. Who chooses effort: planner vs. equilibrium
 

@@ -226,4 +226,131 @@ theorem t2ObservationOne_holds : t2ObservationOneSpec := by
       have hGZeroNonneg : 0 ≤ G 0 := by rw [h.G_zero]
       exact hStandaloneTauDifferences 0 tauA' hGZeroNonneg hTauLt
 
+
+/-- Strict upward shifts of the benefit curve move existing roots upward. -/
+private theorem root_lt_of_benefit_shift
+    {MB1 MB2 MC : ℝ → ℝ} {e1 e2 : ℝ}
+    (hAnti : AntitoneOn MB1 (Set.Ici 0))
+    (hMono : MonotoneOn MC (Set.Ici 0))
+    (hShift : ∀ e : ℝ, 0 ≤ e → MB1 e < MB2 e)
+    (he1 : 0 ≤ e1) (he2 : 0 ≤ e2)
+    (hRoot1 : MB1 e1 = MC e1) (hRoot2 : MB2 e2 = MC e2) :
+    e1 < e2 := by
+  by_contra! h
+  have hB : MB1 e1 ≤ MB1 e2 := hAnti he2 he1 h
+  have hC : MC e2 ≤ MC e1 := hMono he2 he1 h
+  have hS := hShift e2 he2
+  linarith
+
+/-- Diminishing marginal accuracy makes marginal learning benefits antitone
+in effort whenever the prefactor is nonnegative. -/
+private theorem baselineBenefit_antitone_effort
+    {G g gPrime : ℝ → ℝ} (h : AccuracyAssumptions G g gPrime)
+    {DeltaX lamI sigInv2 X tauA : ℝ}
+    (hDX : 0 < DeltaX) (hL : 0 < lamI) (hS : 0 < sigInv2)
+    (hGX : 0 ≤ G X) (hA : 0 ≤ tauA) :
+    AntitoneOn (fun e ↦ marginalBenefitBaseline G g DeltaX lamI sigInv2 e X tauA)
+      (Set.Ici 0) := by
+  intro e1 he1 e2 he2 he12
+  have he1' : 0 ≤ e1 := he1
+  have he2' : 0 ≤ e2 := he2
+  have hy1 : 0 < idiosyncraticPrecision sigInv2 lamI e1 tauA := by
+    unfold idiosyncraticPrecision
+    have := mul_nonneg hL.le he1'
+    linarith
+  have hy2 : 0 < idiosyncraticPrecision sigInv2 lamI e2 tauA := by
+    unfold idiosyncraticPrecision
+    have := mul_nonneg hL.le he2'
+    linarith
+  have hyy : idiosyncraticPrecision sigInv2 lamI e1 tauA ≤
+      idiosyncraticPrecision sigInv2 lamI e2 tauA := by
+    unfold idiosyncraticPrecision
+    have := mul_le_mul_of_nonneg_left he12 hL.le
+    linarith
+  have hg := (marginalAccuracy_strictAntiOn h).antitoneOn hy1 hy2 hyy
+  unfold marginalBenefitBaseline
+  exact mul_le_mul_of_nonneg_left hg
+    (mul_nonneg (mul_nonneg hDX.le hGX) hL.le)
+
+theorem t3ObservationTwoRoot_holds : t3ObservationTwoRootSpec := by
+  intro G g gPrime h DeltaX lamI sigInv2 eps hDX hL hS hEps
+  have hMC : MonotoneOn (marginalCost eps) (Set.Ici 0) := by
+    intro a ha b _ hab
+    unfold marginalCost
+    exact Real.rpow_le_rpow ha hab (div_nonneg zero_le_one hEps.le)
+  constructor
+  · intro X X' tauA e e' hX hXX' hGX hA hR hR'
+    apply root_lt_of_benefit_shift
+      (baselineBenefit_antitone_effort h hDX hL hS hGX.le hA) hMC
+      _ hR.1 hR'.1 hR.2 hR'.2
+    intro effort he
+    exact ((t2ObservationOne_holds G g gPrime h DeltaX lamI sigInv2 effort tauA
+      hDX hL hS he hA).1.increasingDifferencesX X X' hX hXX')
+  · intro X tauA tauA' e e' hGX hA hAA' hR hR'
+    have hA' : 0 ≤ tauA' := hA.trans hAA'.le
+    apply root_lt_of_benefit_shift
+      (baselineBenefit_antitone_effort h hDX hL hS hGX.le hA') hMC
+      _ hR'.1 hR.1 hR'.2 hR.2
+    intro effort he
+    exact ((t2ObservationOne_holds G g gPrime h DeltaX lamI sigInv2 effort tauA
+      hDX hL hS he hA).1.decreasingDifferencesTauA X tauA' hGX hAA')
+
+/-- The maintenance-effort identity uses a denominator whose positivity follows
+from the economic domain. -/
+theorem t4Maintenance_holds : t4MaintenanceSpec := by
+  intro Sigma2 K X effort hS hK hX hSX he
+  have hD : 0 < 1 - Sigma2 * X := sub_pos.mpr hSX
+  have hFactor : 0 < K * (1 - Sigma2 * X) := mul_pos hK hD
+  have hZ : 0 < X + K * effort := add_pos_of_pos_of_nonneg hX (mul_nonneg hK.le he)
+  have hDen : 0 < 1 + Sigma2 * (X + K * effort) :=
+    add_pos zero_lt_one (mul_pos hS hZ)
+  have hM : K * (1 - Sigma2 * X) * maintenanceEffort Sigma2 K X =
+      Sigma2 * X ^ 2 := by
+    unfold maintenanceEffort
+    field_simp [hFactor.ne']
+  have hIdentity : publicPrecisionNext Sigma2 K X effort - X =
+      K * (1 - Sigma2 * X) * (effort - maintenanceEffort Sigma2 K X) /
+        (1 + Sigma2 * (X + K * effort)) := by
+    apply (eq_div_iff hDen.ne').2
+    unfold publicPrecisionNext
+    calc
+      ((X + K * effort) / (1 + Sigma2 * (X + K * effort)) - X) *
+          (1 + Sigma2 * (X + K * effort)) =
+        K * (1 - Sigma2 * X) * effort - Sigma2 * X ^ 2 := by
+          field_simp [hDen.ne'] <;> ring
+      _ = K * (1 - Sigma2 * X) * (effort - maintenanceEffort Sigma2 K X) := by
+          rw [mul_sub, hM]
+  refine ⟨hIdentity, ?_⟩
+  constructor
+  · intro hlt
+    by_contra! hnot
+    have hn := div_nonpos_of_nonpos_of_nonneg
+      (mul_nonpos_of_nonneg_of_nonpos hFactor.le (sub_nonpos.mpr hnot)) hDen.le
+    have hp : 0 < publicPrecisionNext Sigma2 K X effort - X := sub_pos.mpr hlt
+    rw [hIdentity] at hp
+    linarith
+  · intro hlt
+    have hp : 0 < publicPrecisionNext Sigma2 K X effort - X := by
+      rw [hIdentity]
+      exact div_pos (mul_pos hFactor (sub_pos.mpr hlt)) hDen
+    exact sub_pos.mp hp
+
+/-- The rational transition gives the intended zero-knowledge boundary. -/
+theorem publicPrecisionNext_zero (Sigma2 K : ℝ) :
+    publicPrecisionNext Sigma2 K 0 0 = 0 := by
+  simp [publicPrecisionNext]
+
+theorem t6PositiveEffortAtZero_holds : t6PositiveEffortAtZeroSpec := by
+  intro Sigma2 K effort hS hK he
+  unfold publicPrecisionNext
+  positivity
+
+theorem t7PlannerValue_holds : t7PlannerValueSpec := by
+  intro Path _ W hMono hBound a ha b hb hab
+  unfold plannerValue
+  apply csSup_le (Set.range_nonempty _)
+  rintro _ ⟨path, rfl⟩
+  exact le_trans (hMono path ha hb hab)
+    (le_csSup (hBound b hb) ⟨path, rfl⟩)
+
 end AKO26KnowledgeCollapse

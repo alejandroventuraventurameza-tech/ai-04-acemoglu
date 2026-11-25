@@ -133,4 +133,72 @@ def t2ObservationOneSpec : Prop :=
           ObservationOneStandaloneClaims
             G g gPrime DeltaI DeltaX lamI sigInv2 effort tauA
 
+
+/-- Marginal effort cost in the May 2026 parameterization. -/
+noncomputable def marginalCost (eps effort : ℝ) : ℝ :=
+  effort ^ (1 / eps)
+
+/-- A nonnegative root of the baseline first-order condition, not an assumed optimizer. -/
+def IsBaselineFOCRoot
+    (G g : ℝ → ℝ) (DeltaX lamI sigInv2 eps X tauA effort : ℝ) : Prop :=
+  0 ≤ effort ∧
+    marginalBenefitBaseline G g DeltaX lamI sigInv2 effort X tauA =
+      marginalCost eps effort
+
+/-- T3: strict comparative statics of existing FOC roots (Observation 2).
+Positivity of G at the lower knowledge level is explicit: the abstract T2
+assumptions do not alone imply positivity near zero without a boundary condition.
+This does not establish existence of roots or equivalence with global maximizers. -/
+def t3ObservationTwoRootSpec : Prop :=
+  ∀ (G g gPrime : ℝ → ℝ),
+    AccuracyAssumptions G g gPrime →
+    ∀ (DeltaX lamI sigInv2 eps : ℝ),
+      0 < DeltaX → 0 < lamI → 0 < sigInv2 → 0 < eps →
+      (∀ X X' tauA e e' : ℝ, 0 < X → X < X' → 0 < G X → 0 ≤ tauA →
+        IsBaselineFOCRoot G g DeltaX lamI sigInv2 eps X tauA e →
+        IsBaselineFOCRoot G g DeltaX lamI sigInv2 eps X' tauA e' → e < e') ∧
+      (∀ X tauA tauA' e e' : ℝ, 0 < G X → 0 ≤ tauA → tauA < tauA' →
+        IsBaselineFOCRoot G g DeltaX lamI sigInv2 eps X tauA e →
+        IsBaselineFOCRoot G g DeltaX lamI sigInv2 eps X tauA' e' → e' < e)
+
+/-- Public precision after depreciation; K = lambda_G * I.
+The rational form gives the continuous economic extension at zero input.
+Using inverse-of-inverse directly at zero in Lean would produce the wrong value. -/
+def publicPrecisionNext (Sigma2 K X effort : ℝ) : ℝ :=
+  (X + K * effort) / (1 + Sigma2 * (X + K * effort))
+
+/-- The effort needed to maintain a strictly positive public precision. -/
+def maintenanceEffort (Sigma2 K X : ℝ) : ℝ :=
+  Sigma2 * X ^ 2 / (K * (1 - Sigma2 * X))
+
+/-- T4: exact maintenance-effort factorization and strict comparison. -/
+def t4MaintenanceSpec : Prop :=
+  ∀ Sigma2 K X effort : ℝ,
+    0 < Sigma2 → 0 < K → 0 < X → Sigma2 * X < 1 → 0 ≤ effort →
+      (publicPrecisionNext Sigma2 K X effort - X =
+        K * (1 - Sigma2 * X) * (effort - maintenanceEffort Sigma2 K X) /
+          (1 + Sigma2 * (X + K * effort))) ∧
+      (X < publicPrecisionNext Sigma2 K X effort ↔
+        maintenanceEffort Sigma2 K X < effort)
+
+/-- T6: zero precision is not a fixed point when effort is positive there.
+The premise eBR(0)>0 still needs an economic optimality proof. -/
+def t6PositiveEffortAtZeroSpec : Prop :=
+  ∀ Sigma2 K effort : ℝ, 0 < Sigma2 → 0 < K → 0 < effort →
+    0 < publicPrecisionNext Sigma2 K 0 effort
+
+/-- The planner's value, over a fixed nonempty set of feasible paths represented
+by a type. Finiteness is imposed as boundedness in the comparison theorem. -/
+noncomputable def plannerValue {Path : Type} (W : Path → ℝ → ℝ) (tauA : ℝ) : ℝ :=
+  sSup (Set.range fun path : Path ↦ W path tauA)
+
+/-- T7: a common feasible set and pathwise nondecreasing payoff imply
+nondecreasing optimal value, whenever the value is finite. This is an abstract
+order lemma, not the derivation of pathwise monotonicity in the AKO model. -/
+def t7PlannerValueSpec : Prop :=
+  ∀ (Path : Type) [Nonempty Path] (W : Path → ℝ → ℝ),
+    (∀ path : Path, MonotoneOn (W path) (Set.Ici 0)) →
+    (∀ tauA : ℝ, 0 ≤ tauA → BddAbove (Set.range fun path : Path ↦ W path tauA)) →
+    MonotoneOn (plannerValue W) (Set.Ici 0)
+
 end AKO26KnowledgeCollapse

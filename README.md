@@ -39,7 +39,7 @@ to general knowledge.
 
 ## The main result, with all its conditions
 
-**Observation 1 (§3.4).** Under Assumption 1 ($\Delta_I=0$, $\Delta_X>0$) and for $X>0$,
+**Observation 1 (§3.4).** Under Assumption 1 ($\Delta_I=0$, $\Delta_X>0$), positive learning productivity and prior precision, nonnegative effort and AI precision, and for $X>0$,
 
 $$\frac{\partial^2 U}{\partial e\,\partial X} = \Delta_X\lambda_I\,g(X)\,g(Y) > 0,
 \qquad
@@ -52,7 +52,7 @@ precisions add, and $G$ is concave because $g'(\tau) = -g(\tau)\frac{1+\tau}{2\t
 $e(X,\tau_A)$ is the unique root of $\Delta_X G(X)\lambda_I g(Y)=e^{1/\varepsilon}$, increasing
 in $X$ and decreasing in $\tau_A$, strictly for $X>0$.
 
-**Conditions it rests on:** Gaussian states and signals (precisions add); AI informative only
+**Conditions it rests on:** positive $\\lambda_I$, $X>0$ for strict signs, Gaussian states and signals (precisions add); AI informative only
 about the idiosyncratic state; Assumption 1; $\sigma^{-2}>0$; isoelastic effort cost
 (Frisch elasticity $\varepsilon>0$); atomistic agents.
 
@@ -62,7 +62,7 @@ about the idiosyncratic state; Assumption 1; $\sigma^{-2}>0$; isoelastic effort 
 - $\varepsilon>4$: $X=0$ is a locally stable **knowledge-collapse** trap, and above a threshold
   $\tau_A^c$ collapse is global (Prop. 5).
 
-Steady-state welfare is **hump-shaped** in $\tau_A$ (Props. 10–11, which also need Assumption 2:
+Under the paper's welfare conditions, decentralised steady-state welfare is **not necessarily increasing** in $\tau_A$ (Props. 10–11, which also need Assumption 2:
 $\sigma^{-2}\ge\sqrt2-1$).
 
 ## This week's trap — our answers
@@ -77,8 +77,7 @@ $\sigma^{-2}\ge\sqrt2-1$).
 2. **Which assumptions do the authors relax?** Section 5 relaxes aggregation (§5.1), synthetic data
    (§5.2) and separability (§5.3), all on the information side. **The production-side assumption
    never touched is $\Delta_I=0$** (Assumption 1). We relaxed it. Complete collapse disappears and
-   the welfare limit becomes $\Delta_I$, but the interior optimum survives. For $\varepsilon<4$ we
-   prove it, and the same threshold 4 reappears.
+   the welfare limit becomes $\Delta_I$, but the interior optimum survives. For $\varepsilon<4$ the tutorial gives an asymptotic argument; the numerical examples illustrate the extension, not a general uniqueness result.
 3. **Version.** We read the 5 May 2026 author version. It differs from the February NBER release
    in notation and in three new, unproven robustness claims; see `extra/version-comparison.md`.
 
@@ -91,15 +90,20 @@ $\sigma^{-2}\ge\sqrt2-1$).
 | `README.md` | This page |
 | `prompts.md` | The LLM conversations, raw |
 | `hand/` | Handwritten derivation(s) — see `hand/README.md` |
-| `presentation.tex` / `.pdf` | The 5-minute Beamer deck *(in progress)* |
+| `presentation.tex` / `.pdf` | The required 20-minute Beamer deck (source present; PDF and hand evidence pending verification) |
 | `extra/tutorial-ako.pdf` | Deep-immersion tutorial (18 pp.). Part I: static problem, Observations 1–2, the bridge to Lemma 2. Part II: welfare, the trap, and the $\Delta_I>0$ extension with proofs |
 | `extensions.md` | Dead ends (already in §5), what we relaxed ($\Delta_I>0$, planner, discounting), and four open extensions |
 | `extra/five-questions.md` | The question, the answer, the argument, the contribution, and what is unconvincing |
 | `extra/version-comparison.md` | What changed between the February (NBER) and May (MIT) versions |
 | `sim/verify_static.py` | SymPy check of every algebraic step in the static block |
 | `sim/model.py`, `sim/fig_static.py`, `sim/welfare.py` | Numerical model; figures 1–3 (static block) and 4–8 (welfare, extension, transition, planner) |
-| `lean/CHATGPT_CONTEXT.md` | Brief for the Lean 4 formalization (done with ChatGPT; Claude audits it) |
+| `lean/` | Standalone Lean 4 project; T1/T2 compiled and axiom-audited on initial CI. T3/T4/T6/T7 added and awaiting fresh checks. Official AppliedModelingLib folder and paper-scoped check still pending. |
+| `lean/FINAL_VALIDATION_REPORT.md` | Exact proof boundary, source version, and CI evidence |
 | `paper/` | How to get the PDF (not committed) |
+
+## Delivery status
+
+The student reports the professor authorized late delivery and GPT-6 with xhigh reasoning effort; the presentation has already taken place. Slides remain a required repository artifact. The manuscript photo and the full AppliedModelingLib contribution workflow are not yet complete; this is a candidate, not a final submission. See [PR #1](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/pull/1).
 
 ## Reproduce
 

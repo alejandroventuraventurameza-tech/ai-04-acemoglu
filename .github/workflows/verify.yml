@@ -3,8 +3,6 @@ name: Repository 4 verification
 on:
   push:
     branches: [analysis, main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -66,3 +64,28 @@ jobs:
           name: ako-presentation-pdf
           path: presentation.pdf
           if-no-files-found: error
+
+  publish-presentation:
+    name: Commit verified Beamer PDF to analysis
+    if: github.event_name == 'push' && github.ref == 'refs/heads/analysis'
+    needs: [lean, simulation, presentation]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ako-presentation-pdf
+          path: .
+      - name: Commit PDF only to the source branch
+        run: |
+          test -s presentation.pdf
+          git add presentation.pdf
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'build(slides): publish verified Beamer PDF [skip ci]'
+          git push origin HEAD:analysis
