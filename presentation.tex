@@ -272,33 +272,31 @@ e(0,\tau_A)>0\quad\Longrightarrow\quad F(0)>0.
 \end{frame}
 
 \begin{frame}{Lean: enunciado exacto y paso central de T1}
-\textbf{Objeto del artículo (MIT, p.~13):} marginal de la probabilidad de éxito.
+\setlength{\parskip}{0pt}
+\textbf{Resultado matemático (MIT, p.~13):}
 \[
-g(\tau)=G'(\tau)=\frac{\exp(-\tau/2)}{\sqrt{2\pi\tau}},
-\quad
-g(\tau)>0\ (\tau>0),\quad
-0<a<b\ \Longrightarrow\ g(b)<g(a).
+g(\tau)=G'(\tau)=\frac{\exp(-\tau/2)}{\sqrt{2\pi\tau}},\quad
+\tau>0\Rightarrow g(\tau)>0,\quad
+0<a<b\Rightarrow g(b)<g(a).
 \]
-\textbf{Especificación completa:} \texttt{gAKO} representa la expresión cerrada anterior.
-\par\smallskip
+\textbf{Especificación completa:} \texttt{gAKO} es la expresión cerrada de $g$.
+\par
 {\small\ttfamily
 def t1SubstitutionEngineSpec : Prop :=\par
 \hspace*{1em}($\forall$ tau : $\mathbb R$, 0 $<$ tau $\to$ 0 $<$ gAKO tau) $\land$\par
 \hspace*{2em}StrictAntiOn gAKO (Set.Ioi 0)\par
 }
-\smallskip
-\textbf{Prueba (extracto de \texttt{t1SubstitutionEngine\_holds}):}
-\par\smallskip
+\vspace{0.5em}
+\textbf{Prueba (extracto de \texttt{t1SubstitutionEngine\_holds}):}\par
 {\small\ttfamily
-have hrpow : b \string^ (-(1 / 2 : $\mathbb R$)) $<$\par
-\hspace*{1em}a \string^ (-(1 / 2 : $\mathbb R$)) := by\par
+have hrpow : b \string^ (-(1 / 2 : $\mathbb R$)) $<$ a \string^ (-(1 / 2 : $\mathbb R$)) := by\par
 \hspace*{2em}exact Real.rpow\_lt\_rpow\_of\_neg ha hab (by norm\_num)\par
 }
-\begin{block}{Qué verifica Lean}
+\begin{block}{Alcance de la prueba}
 \small
-Con \texttt{ha}: $a>0$ y \texttt{hab}: $a<b$, el exponente $-1/2$ invierte el orden. El resto combina positividad y decrecimiento exponencial. \texttt{StrictAntiOn} restringe el dominio a $(0,\infty)$; T1 no identifica por sí solo $g_{\rm AKO}$ con la derivada de la CDF. Compilación y auditoría de axiomas aprobadas.
+Con \texttt{ha}: $a>0$ y \texttt{hab}: $a<b$, el exponente $-1/2$ invierte el orden. \texttt{StrictAntiOn} expresa monotonía estricta decreciente en $(0,\infty)$. T1 verifica la fórmula cerrada, no el puente $g=G'$. Build y auditoría de axiomas: aprobados.
 \end{block}
-\slidenote{\texttt{lean/MainTheorems.lean}: Spec íntegro y fragmento literal; se preservan los símbolos matemáticos.}
+{\scriptsize\color{muted}Fuente Lean: \texttt{lean/MainTheorems.lean}.}
 \end{frame}
 
 \begin{frame}{El límite de la formalización: especificación versus artículo}

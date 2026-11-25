@@ -86,7 +86,7 @@ jobs:
         run: |
           latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error presentation.tex
           test "$(pdfinfo presentation.pdf | awk '/^Pages:/ {print $2}')" = 18
-          if grep -E 'Overfull \\\\[hv]box|Missing character:' presentation.log; then exit 1; fi
+          if grep -F -e 'Overfull \hbox' -e 'Overfull \vbox' -e 'Missing character:' presentation.log; then exit 1; fi
           mkdir -p /tmp/ako-slide-qa
           pdftoppm -f 14 -l 16 -r 150 -png presentation.pdf /tmp/ako-slide-qa/slide
       - uses: actions/upload-artifact@v4
