@@ -231,3 +231,29 @@ The following are selected verbatim conversation passages from the current proje
 - Official upstream intake (separate from the standalone build): https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45551762272
 - The proof boundary and assumptions are documented in the [validation report](extra/standalone-lean/FINAL_VALIDATION_REPORT.md). The original Codex export and corrected [handwritten proof](hand/ai-04.pdf) are now published. The separate cold-test answers remain unavailable.
 - Final combined verification: https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45557465434 (all four jobs successful; exact handwritten PDF hash verified; 18-page Beamer PDF published).
+
+
+---
+
+## Evidence ledger — final refinement (25 November 2026)
+
+- **Recovered original:** the complete student-supplied Codex export in `extra/chat-history.md`; the portions about T1/T2 are relevant to this repository. The subsequent discussion of the next repository is preserved as part of the original export, not evidence for AKO.
+- **Retained raw passages:** original prompt document excerpts, Claude extraction/version-check excerpts, and selected verbatim continuation messages above. Section 1 explicitly labels the welfare discussion as a summary, not a verbatim transcript.
+- **Unavailable:** the complete original Claude conversation and the answers to the separately planned cold test in Session 2. If recovered, append them unchanged as dated original transcripts; otherwise do not invent historical answers. A new run must be identified as a new experiment, with its date, model configuration, exact source and unedited prompts/answers.
+- **Mathematical adjudication:** Observation 1 (MIT pp. 14–15), the independent manuscript and SymPy check establish the analytic derivatives. T1 and the conditional source-facing endpoint `observationOne` were compiled; the concrete CDF-to-utility bridge and independent semantic review remain open. See `extra/aml-evidence/` for machine logs and `extra/aml-intake-status.md` for the exact adapted generator procedure.
+
+### User — final manuscript and transcript delivery (verbatim excerpts)
+
+> van handnotes corregidos con lo del denominador
+
+> bien, ahora si te subi los chats el hsitorial y tambien ya subi el pdf verificalo por favor
+
+> Pero, que es lo que falta además de publicarlo en el issue. El profesor me ha permitido publicarlo a desplazo enviandole el enlace a su correo, pero quiero saber si hemos hecho de calidad y cumplido todos los requerimientos.
+
+> ok, hazlo y dime que necesitas adicionalmente que te de
+
+### User — confirmation of unavailable Claude history (25 November 2026, verbatim)
+
+> Listo, ya hice los PR. ¿Ahora? No pude recuperar los chats de Claude
+
+The complete historical Claude export could not be recovered by the student. The retained excerpts and expressly labeled summaries remain as evidence of that earlier work; they are not presented as a full raw transcript. This is a documentary limitation, not a failure of the Lean build or numerical reproduction. No historical exchanges have been fabricated. The instructor's authorization for late delivery and model configuration does not independently establish a waiver of the raw-transcript requirement.
