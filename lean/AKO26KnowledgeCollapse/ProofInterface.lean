@@ -281,6 +281,8 @@ theorem t3ObservationTwoRoot_holds : t3ObservationTwoRootSpec := by
   constructor
   · intro X X' tauA e e' hX hXX' hGX hA hR hR'
     apply root_lt_of_benefit_shift
+      (MB1 := fun u ↦ marginalBenefitBaseline G g DeltaX lamI sigInv2 u X tauA)
+      (MB2 := fun u ↦ marginalBenefitBaseline G g DeltaX lamI sigInv2 u X' tauA)
       (baselineBenefit_antitone_effort h hDX hL hS hGX.le hA) hMC
       _ hR.1 hR'.1 hR.2 hR'.2
     intro effort he
@@ -289,6 +291,8 @@ theorem t3ObservationTwoRoot_holds : t3ObservationTwoRootSpec := by
   · intro X tauA tauA' e e' hGX hA hAA' hR hR'
     have hA' : 0 ≤ tauA' := hA.trans hAA'.le
     apply root_lt_of_benefit_shift
+      (MB1 := fun u ↦ marginalBenefitBaseline G g DeltaX lamI sigInv2 u X tauA')
+      (MB2 := fun u ↦ marginalBenefitBaseline G g DeltaX lamI sigInv2 u X tauA)
       (baselineBenefit_antitone_effort h hDX hL hS hGX.le hA') hMC
       _ hR'.1 hR.1 hR'.2 hR.2
     intro effort he
@@ -319,7 +323,7 @@ theorem t4Maintenance_holds : t4MaintenanceSpec := by
         K * (1 - Sigma2 * X) * effort - Sigma2 * X ^ 2 := by
           field_simp [hDen.ne'] <;> ring
       _ = K * (1 - Sigma2 * X) * (effort - maintenanceEffort Sigma2 K X) := by
-          rw [mul_sub, hM]
+          rw [mul_sub (K * (1 - Sigma2 * X)) effort (maintenanceEffort Sigma2 K X), hM]
   refine ⟨hIdentity, ?_⟩
   constructor
   · intro hlt
