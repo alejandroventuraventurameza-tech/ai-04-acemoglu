@@ -4,7 +4,10 @@ No independent semantic-review or closure verdict is fabricated.
 import hashlib
 import json
 import os
+import shutil
 import subprocess
+import sys
+from argparse import Namespace
 from pathlib import Path
 
 ROOT = Path(os.environ["GITHUB_WORKSPACE"])
@@ -15,8 +18,12 @@ PDF = TEMP / "AKO26-MIT-2026-05-05.pdf"
 PAPER = "AKO26KnowledgeCollapse"
 VERSION = "MIT author version, May 5, 2026 (69 pages); NBER WP 34910"
 SOURCE = "https://economics.mit.edu/sites/default/files/2026-05/AI,%20Human%20Cognition%20and%20Knowledge%20Collapse%2005-05-26.pdf"
-BASELINE = "e5ec1ac4873c589c1ed246870d790ed66afc97d5"
+BASELINE = "4ab2975b14e0fb2a776bda9e5dc04ba798645b00"
 DIGEST = hashlib.sha256(PDF.read_bytes()).hexdigest()
+# The upstream facade starts child Python processes from its root. Preserve
+# the root on their import path; the first run exposed its absence.
+os.environ["PYTHONPATH"] = str(UP) + os.pathsep + os.environ.get("PYTHONPATH", "")
+sys.path.insert(0, str(UP))
 
 # Self-contained scaffold target: the two derivatives of the displayed
 # marginal payoff. The Gaussian CDF bridge remains a visible proof boundary.
@@ -84,11 +91,48 @@ status = run_log(["python3", "scripts/paper_contribution.py", "new", SOURCE,
     "--folder", PAPER, "--title", "AI, Human Cognition and Knowledge Collapse",
     "--authors", "Daron Acemoglu, Dingwen Kong, Asuman Ozdaglar",
     "--version", VERSION, "--official-url", "https://www.nber.org/papers/w34910",
-    "--pdf-url", SOURCE, "--statement-spec", str(spec)], "scaffold.log")
+    "--pdf-url", SOURCE, "--no-download"], "scaffold.log")
 if status:
     raise SystemExit(status)
 
 folder = UP / "papers" / PAPER
+
+# Use the official contributor facade for the initial scaffold, then the
+# pinned upstream generator's rendering functions for the source-pinned
+# draft. This avoids rebuilding the entire library merely to elaborate a
+# one-theorem starter. The actual generated statement and proof are checked
+# below by the official scoped check and the full paper target build.
+from scripts import new_paper as generator
+
+draft = generator.load_statement_spec(spec)
+args = Namespace(
+    title="AI, Human Cognition and Knowledge Collapse",
+    authors="Daron Acemoglu, Dingwen Kong, Asuman Ozdaglar",
+    version=VERSION, official_url="https://www.nber.org/papers/w34910",
+    pdf_url=SOURCE, url=SOURCE, folder=PAPER, namespace=PAPER,
+)
+audit_source = folder / generator.audited_source_filename(PDF)
+shutil.copyfile(PDF, audit_source)
+if hashlib.sha256(audit_source.read_bytes()).hexdigest() != DIGEST:
+    raise RuntimeError("Source bytes changed during copy")
+generator.extract_text(audit_source, folder / "source.txt", True)
+source_rel = str(audit_source.relative_to(UP))
+def write_generated(rel, value):
+    (folder / rel).write_text(value, encoding="utf-8")
+write_generated("PaperInterface.lean",
+    generator.paper_interface_text(args.title, PAPER, PAPER, draft.targets))
+write_generated("ProofInterface.lean",
+    generator.proof_interface_text(args.title, PAPER, PAPER, draft.targets))
+write_generated("status.json", generator.status_text(args, PAPER, draft.targets))
+write_generated("audit/paper_statement_map.json",
+    generator.paper_statement_map_text(args, PAPER, draft, source_rel))
+write_generated("audit/v11_source_map_preparation_config.json",
+    generator.source_inventory_review_config_text(PAPER, draft, PAPER))
+write_generated("audit/source_proof_fidelity.json",
+    generator.source_proof_fidelity_text(PAPER, source_rel, DIGEST))
+# These are generator-produced drafts, NOT validated semantic judgments.
+# All reviews, source inventory decisions and closeout receipts remain open.
+
 def old_body(name):
     path = f"lean/{PAPER}/{name}.lean"
     src = subprocess.check_output(["git", "-C", str(ROOT), "show", f"{BASELINE}:{path}"], text=True)
@@ -115,7 +159,7 @@ with (folder / "docs" / "FORMALIZATION_PLAN.md").open("a", encoding="utf-8") as 
   are open. The other observations, definitions, and dynamic results have
   not received a full source-only inventory and are not claimed as covered.
 - Baseline helpers belong to the student's own commit {BASELINE},
-  verified in Actions run 45548281818; no other student's run is used.
+  verified in Actions run 45551690557; no other student's run is used.
 - The course marks the dynamic sections read-only. The static block is the
   priority. No final source-atom review, independent semantic receipt,
   or human approval is claimed. This is partial, not a closeout.
@@ -127,11 +171,26 @@ build = run_log(["lake", "build", "+" + PAPER], "paper-build.log")
 axioms = 125
 if build == 0:
     a = TEMP / "ako-axioms.lean"
-    a.write_text("import AKO26KnowledgeCollapse\n#print axioms AKO26KnowledgeCollapse.observationOne\n#print axioms AKO26KnowledgeCollapse.t1SubstitutionEngine_holds\n#print axioms AKO26KnowledgeCollapse.t2ObservationOne_holds\n")
+    a.write_text("import AKO26KnowledgeCollapse\n#print axioms AKO26KnowledgeCollapse.observationOne\n#print axioms AKO26KnowledgeCollapse.t1SubstitutionEngine_holds\n#print axioms AKO26KnowledgeCollapse.t2ObservationOne_holds\n#print axioms AKO26KnowledgeCollapse.t3ObservationTwoRoot_holds\n#print axioms AKO26KnowledgeCollapse.t4Maintenance_holds\n#print axioms AKO26KnowledgeCollapse.t6PositiveEffortAtZero_holds\n#print axioms AKO26KnowledgeCollapse.t7PlannerValue_holds\n")
     axioms = run_log(["lake", "env", "lean", str(a)], "axioms.log")
-    if "sorryAx" in (EVIDENCE / "axioms.log").read_text():
+    log = (EVIDENCE / "axioms.log").read_text()
+    if "sorryAx" in log:
         axioms = 1
 results = f"paper_contribution_check_fast={fast}\nfocused_root_build={build}\naxioms_command={axioms}\n"
+# Retain a truthful status for the actual result. No semantic or human review
+# is marked complete; a successful build of the partial target is not full
+# source coverage.
+status_path = folder / "status.json"
+payload = json.loads(status_path.read_text())
+payload["status"] = "partially formalized" if build == 0 and axioms == 0 else "not formalized"
+payload["main_caveat"] = ("Observation 1 is represented by derivatives of the displayed "
+    "marginal payoff under explicit analytic premises; the concrete Gaussian CDF, "
+    "utility-to-marginal-payoff bridge, and independent semantic review remain open.")
+payload["human_summary"] = ("Own course intake; static marginal-benefit identities and "
+    "related helper proofs. Full paper coverage is not claimed.")
+status_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
+sync = run_log(["python3", "scripts/sync_paper_status.py", "--paper", PAPER], "status-sync.log")
+print(f"status_sync_exit_code={sync}")
 (EVIDENCE / "check-exit-codes.txt").write_text(results)
 (folder / "docs" / "CHECK_EXIT_CODES.txt").write_text(results)
 with (folder / "docs" / "FORMALIZATION_WORKING_MEMO.md").open("a", encoding="utf-8") as f:
