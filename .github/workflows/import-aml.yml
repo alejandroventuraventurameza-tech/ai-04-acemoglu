@@ -1,0 +1,141 @@
+name: Import checked official AppliedModelingLib folder
+
+on:
+  push:
+    branches: ['work/aml-import']
+    paths: ['.github/workflows/import-aml.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          name: official-ako-intake-evidence
+          run-id: 45554882759
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/ako-intake-artifact
+      - name: Import the complete generated folder and verify its Git index byte for byte
+        run: |
+          set -euo pipefail
+          python3 scripts/import_aml_folder.py --artifact "$RUNNER_TEMP/ako-intake-artifact" --run-id 45554882759
+          git diff --cached --stat
+      - name: Preserve provenance and update navigation outside the official folder
+        run: |
+          set -euo pipefail
+          git fetch origin work/aml-intake
+          git checkout 2833e6c04278f2a2f8be28ad5cdf8faaebe5eb53 -- scripts/ako_aml_intake.py
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          r = Path(".")
+          evidence = json.loads((r/"extra/aml-evidence/import-manifest.json").read_text())
+          assert evidence["run_id"] == 45554882759 and all(v==0 for v in evidence["checks"].values())
+          n = len(evidence["files"])
+          p = r/"README.md"
+          s = p.read_text()
+          s = s.replace("[Lean scope and validation](lean/FINAL_VALIDATION_REPORT.md)", "[official Lean folder](lean/README.md) · [scope and validation](extra/standalone-lean/FINAL_VALIDATION_REPORT.md) · [official check evidence](extra/aml-evidence/README.md)")
+          s = s.replace("The official AppliedModelingLib folder/check and handwritten artifact are pending.", f"The official AppliedModelingLib folder contains {n} unchanged generated files; its fast check, focused build, and seven selected axiom checks passed in run 45554882759. The handwritten derivation has been reviewed; its original PDF must still be added to the GitHub branch.")
+          p.write_text(s)
+          p = r/"extra/analysis-overview.md"
+          s = p.read_text().replace("Official AppliedModelingLib folder and paper-scoped check still pending.", "The official folder and paper-scoped check are now available at the repository root: lean/ and extra/aml-evidence/.")
+          s = s.replace("| "+chr(96)+"lean/"+chr(96)+" | Standalone Lean", "| "+chr(96)+"extra/standalone-lean/"+chr(96)+" | Standalone Lean")
+          s = s.replace("lean/FINAL_VALIDATION_REPORT.md", "extra/standalone-lean/FINAL_VALIDATION_REPORT.md")
+          s = s.replace("The manuscript photo and the full AppliedModelingLib contribution workflow are not yet complete", "The official AppliedModelingLib partial run is checked and imported; the original manuscript PDF and final conversation transcript still need to be present in GitHub")
+          p.write_text(s)
+          p = r/"extra/aml-intake-status.md"
+          s = p.read_text().replace("# AppliedModelingLib own-run execution record (in progress)", "# AppliedModelingLib own-run execution record")
+          s = s.replace("The result of "+chr(96)+"python3 scripts/paper_contribution.py check AKO26KnowledgeCollapse --fast"+chr(96)+" is not yet available. All failed or incomplete results will be distinguished from the earlier successful standalone build.", "The official fast check exited 0 (8,315 build jobs), the full focused paper build exited 0 (8,317 jobs), the seven axiom checks exited 0 with only propext, Classical.choice and Quot.sound, and status synchronization exited 0. See extra/aml-evidence/ for the exact logs and import manifest. No full-paper semantic certification is claimed.")
+          s += f"\n## Exact generated-folder import\n\nAll {n} tracked generated files from run 45554882759 are installed at lean/, with matching SHA-256 digests and Git modes. Source PDFs, extracted source text and private review traces were excluded by the original upstream ignore rules. The previous standalone project was preserved at extra/standalone-lean/. The import manifest and logs are outside the generated folder.\n"
+          p.write_text(s)
+          p = r/".gitignore"
+          s = p.read_text().replace("lean/.lake/\nlean/build/", "lean/.lake/\nlean/build/\nextra/standalone-lean/.lake/\nextra/standalone-lean/build/")
+          p.write_text(s)
+          p = r/"extra/standalone-lean/FINAL_VALIDATION_REPORT.md"
+          s = p.read_text()
+          s += "\n## Subsequent official run (25 November 2026)\n\nThe separate official intake completed successfully in run 45554882759. See ../aml-evidence/README.md for the actual official check, proof build, axiom output, and verified generated-folder import. This standalone report is retained as historical evidence, not an official generated audit file.\n"
+          p.write_text(s)
+          p = r/"hand/README.md"
+          p.write_text("""# Handwritten derivation: Observation 1 and partial crowding-out
+          
+          The student supplied the original six-page handwritten PDF in the project chat on 25 November 2026. Its content has been reviewed. The repository copy must be the unchanged PDF at hand/ai-04.pdf.
+          
+          Original SHA-256: 80c8b9dad0381cf7003feebc7dba4ab7ad08821dea0829297b949e22b2263f6e (1,668,704 bytes; six landscape pages).
+          
+          | Pages | Checked content |
+          |---|---|
+          | 1–2 | Gaussian accuracy and marginal accuracy; strict concavity; individual problem and FOC |
+          | 3 | General-knowledge complementarity and contextual-AI substitution (Observation 1) |
+          | 4 | Strict second-order condition, interiority and implicit-function comparative statics |
+          | 5 | Partial crowding-out and strict bounds on total contextual-precision response |
+          | 6 | Audit verdict: a previous extraction confused the FOC with the objective |
+          
+          Minor notation clarification on p. 4: the denominator of the implicit derivative is the second partial U_ee, not a differential operator applied to U_ee. At tau_A=0 the comparative static is interpreted from the feasible right side (or by local extension). G(X)>0 follows directly from the normal CDF for X>0. The extension on p. 5 is analytic, not a claimed fully Lean-certified result.
+          
+          The optional Lemma 2 handwritten exercise is not required. The presentation displays page 3 of the original PDF once that file is present in GitHub.
+          """)
+          p = r/"presentation.tex"
+          s = p.read_text()
+          start = s.index(r"\begin{frame}{Auditoría manuscrita: no confiar ciegamente en la IA}")
+          end = s.index(r"\end{frame}", start)+len(r"\end{frame}")
+          block = r"""\begin{frame}{Auditoría manuscrita: no confiar ciegamente en la IA}
+          \IfFileExists{hand/ai-04.pdf}{
+            \begin{center}
+            \includegraphics[page=3,width=0.96\linewidth,height=0.69\textheight,keepaspectratio]{hand/ai-04.pdf}
+            \end{center}
+            \slidenote{Derivación original, p.~3. Veredicto (p.~6): la extracción confundió la FOC con la función objetivo; los signos de la Observación 1 son correctos.}
+          }{
+            \begin{block}{Evidencia revisada, PDF pendiente de incorporación a GitHub}
+            La derivación de seis páginas contiene ambos signos y la extensión de desplazamiento parcial. En p.~4, el denominador correcto es $U_{ee}$.
+            \end{block}
+            \[
+            g'(\tau)=-\frac{1+\tau}{2\tau}g(\tau),\qquad
+            U_{eX}>0,\quad U_{e\tau_A}<0.
+            \]
+            \slidenote{La extracción previa confundió la FOC con el objetivo; no es un error del artículo. El original debe incorporarse en \texttt{hand/ai-04.pdf}.}
+          }
+          \end{frame}"""
+          s = s[:start] + block + s[end:]
+          s = s.replace(r"\texttt{cd lean \&\& lake build}", r"\texttt{cd extra/standalone-lean \&\& lake build}")
+          s = s.replace("La ejecución del flujo oficial de AppliedModelingLib, su carpeta completa "+r"\texttt{papers/AKO26KnowledgeCollapse/}"+ " copiada a "+r"\texttt{lean/}"+", el "+r"\texttt{paper\_contribution.py check --fast}"+", y la fotografía manuscrita. El progreso parcial debe declararse como tal.", r"Flujo oficial: \texttt{check --fast}, compilación del módulo y siete comprobaciones de axiomas aprobadas (run 45554882759). Carpeta generada en \texttt{lean/}. El alcance es parcial; no se certifica el artículo completo. La evidencia manuscrita debe figurar en el repositorio.")
+          s = s.replace("Lo que falta certificar", "Resultado de verificación y alcance")
+          p.write_text(s)
+          PY
+          git add -- README.md extra/analysis-overview.md extra/aml-intake-status.md extra/standalone-lean/FINAL_VALIDATION_REPORT.md .gitignore hand/README.md presentation.tex
+      - name: Build presentation and ensure official folder remains unchanged
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-lang-spanish
+          latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error presentation.tex
+          git add presentation.pdf
+          python3 - <<'PY'
+          import hashlib, json, subprocess
+          from pathlib import Path
+          m=json.loads(Path("extra/aml-evidence/import-manifest.json").read_text())
+          files=subprocess.check_output(["git","ls-files","--stage","-z","lean"]).decode().split("\0")
+          actual={}
+          for e in filter(None,files):
+              meta,path=e.split("\t",1)
+              mode,_,stage=meta.split()
+              assert stage=="0"
+              raw=subprocess.check_output(["git","show",":"+path])
+              actual[path.removeprefix("lean/")]={"sha256":hashlib.sha256(raw).hexdigest(),"git_mode":mode}
+          assert actual==m["files"], "Generated folder changed after import"
+          print(f"Final index matches all {len(actual)} generated files exactly")
+          PY
+      - name: Commit to analysis (no force push)
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'feat(aml): import exact official partial formalization and checked evidence [skip ci]'
+          git push origin HEAD:analysis
