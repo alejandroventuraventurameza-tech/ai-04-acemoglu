@@ -9,17 +9,24 @@
 - [Numerical job 138983050832](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45548281818/job/138983050832): all static-block assertions passed; all eight figures reproduced. These computations do not prove global dynamic results.
 - Beamer job failed because `\\note` was already defined. The conflict was repaired and the next Beamer build (run 45551232138) produced an 18-page PDF. That build reported a small vertical overflow in the Lean slide, now shortened. The same run stopped on two definitions involving noncomputable real division; both have been marked `noncomputable`. Run [45551457600](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45551457600) produced the clean 18-page deck without overflow, and the updated Lean interface compiled. The proof file reported two unresolved benefit-function metavariables and a rewrite ambiguity in T4. Explicit MB1/MB2 and an explicitly instantiated distributivity rewrite repair these errors; the amended proof code requires a new build.
 
+## Checked expanded project
+
+- [Successful run 45551690557](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45551690557), source commit `4ab2975b14e0fb2a776bda9e5dc04ba798645b00`.
+- [Lean job 138994101386](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45551690557/job/138994101386): `Build completed successfully (8317 jobs).` The axiom audit examined **64 declarations**, all within `propext, Classical.choice, Quot.sound`. No nonstandard axiom or proof placeholder was accepted. The only recorded Lean diagnostic was a redundant tactic-sequencing linter warning; it is not a mathematical error.
+- SymPy assertions and all eight numerical figures passed. The Beamer build produced 18 pages without an overfull-box warning, and the publish job committed the generated PDF at `9d98a5be466f604f2e59e09e1e3f680eb0a0042d`.
+- The build certifies the stated Lean propositions, not the unresolved links to the full Gaussian model. The official AppliedModelingLib contribution is an independent requirement.
+
 ## Target ledger
 
 | Target | Endpoint | Scope | Status |
 |---|---|---|---|
 | T1 | `t1SubstitutionEngine_holds` | Concrete Gaussian marginal accuracy positive and strictly decreasing on positive precision | Checked at baseline |
 | T2 | `t2ObservationOne_holds` | Derivatives of marginal benefit and differences for baseline and standalone-value extension, under explicit accuracy assumptions | Checked at baseline; Gaussian CDF bridge and utility derivative not yet discharged inside Lean |
-| T3 | `t3ObservationTwoRoot_holds` | Strict order of existing nonnegative FOC roots; positivity of G explicit | New proof, pending CI |
-| T4 | `t4Maintenance_holds` | Factorization and maintenance inequality on the positive precision domain | New proof, pending CI |
+| T3 | `t3ObservationTwoRoot_holds` | Strict order of existing nonnegative FOC roots; positivity of G explicit | Checked in run 45551690557 |
+| T4 | `t4Maintenance_holds` | Factorization and maintenance inequality on the positive precision domain | Checked in run 45551690557 |
 | T5 | — | Power-law bound leading to the Frisch threshold | Open; source dynamics read-only in course issue |
-| T6 | `t6PositiveEffortAtZero_holds` | Positive effort at zero implies positive next precision; does not establish effort optimality | New proof, pending CI |
-| T7 | `t7PlannerValue_holds` | Abstract monotonicity of finite supremum under common feasible paths and pathwise monotone welfare | New proof, pending CI; economic specialization open |
+| T6 | `t6PositiveEffortAtZero_holds` | Positive effort at zero implies positive next precision; does not establish effort optimality | Checked in run 45551690557 |
+| T7 | `t7PlannerValue_holds` | Abstract monotonicity of finite supremum under common feasible paths and pathwise monotone welfare | Checked in run 45551690557; economic specialization open |
 | T8 | — | Fixed point existence for standalone contextual value | Open |
 
 ## Assumptions and source fidelity
@@ -32,4 +39,4 @@
 
 ## AppliedModelingLib contribution gate
 
-The course explicitly requires the complete **own-generated** `papers/AKO26KnowledgeCollapse/` folder and the actual result of `python3 scripts/paper_contribution.py check AKO26KnowledgeCollapse --fast`. Standalone CI success does not fulfill that gate. The pinned upstream commit inspected for the next intake is `194edcc95df74806a39b961d10dedddc6e730cce` of [AppliedModelingLib](https://github.com/nikhgarg/AppliedModelingLib). No semantic review, generated status or audit is represented as completed unless produced by the official workflow.
+The course explicitly requires the complete **own-generated** `papers/AKO26KnowledgeCollapse/` folder and the actual result of `python3 scripts/paper_contribution.py check AKO26KnowledgeCollapse --fast`. Standalone CI success does not fulfill that gate. The pinned upstream commit used for the separate official intake is `194edcc95df74806a39b961d10dedddc6e730cce` of [AppliedModelingLib](https://github.com/nikhgarg/AppliedModelingLib). The separate [official intake run 45551762272](https://github.com/alejandroventuraventurameza-tech/ai-04-acemoglu/actions/runs/45551762272) was launched from `work/aml-intake`. Its final result is not claimed here. No semantic review, generated status or audit is represented as completed unless produced by the official workflow.
